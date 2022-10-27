@@ -1,0 +1,119 @@
+import * as React from 'react';
+import { type ApiRequestor } from 'pa-typings';
+import { FormControl, MenuItem, Select } from '@mui/material';
+import { Gauge } from '@ant-design/plots';
+
+interface Props {
+  requestor: ApiRequestor;
+  isEditor?: boolean;
+}
+
+export const Statistics: React.FC<Props> = ({ requestor }) => {
+  const [columns, setColumns] = React.useState<{ name: string, id: number }[]>([]);
+  const [colId, setColId] = React.useState(-1);
+  const wrapperGuid = React.useRef<{ wrapperGuid: string }>({ wrapperGuid: '' });
+
+  const [data, setData] = React.useState({ min: 0, max: 100, mean: 23 });
+
+  React.useEffect(() => {
+    const fetchData = async () => {
+      const guid = wrapperGuid.current = await requestor.wrapperGuid();
+      let dsInfo = await requestor.info(guid);
+
+      const columns = dsInfo.columns
+        .filter(c => c.type != 'String')
+        .map((c) => ({ name: c.title, id: c.id }));
+
+      if (columns.length) {
+        setColId(columns[0].id);
+        setColumns(columns);
+      }
+    };
+    fetchData();
+  }, [requestor]);
+
+  React.useEffect(() => {
+    const fetchData = async () => {
+      const stat = await requestor.statistics!({ wrapperGuid: wrapperGuid.current.wrapperGuid, columnId: colId });
+      let min = 0, max = 0, mean = 0;
+      for (const s of stat.basicStatistics) {
+        if (s.value == undefined)
+          continue;
+        if (s.type == 'MINIMUM')
+          min = +s.value;
+        if (s.type == 'MAXIMUM')
+          max = +s.value;
+        if (s.type == 'MEAN')
+          mean = +s.value;
+      }
+      setData({ min, max, mean });
+    };
+    if (wrapperGuid.current && colId != -1) {
+      fetchData();
+    }
+  }, [colId]);
+
+  const Normalizer = (min: number, max: number) => ({
+    normalize: (x: number) => min + x * (max - min),
+    denormalize: (x: number) => (x - min) / (max - min)
+  });
+  const gaugeNormalizer = Normalizer(data.min, data.max);
+
+  const config = {
+    percent: gaugeNormalizer.denormalize(data.mean),
+    range: {
+      color: '#30BF78',
+      width: 12,
+    },
+    meta: {
+      percent: {
+        tickInterval: 0.1,
+        formatter: (x: string) => {
+          const num = gaugeNormalizer.normalize(+x);
+          return num.toFixed(2);
+        }
+      }
+    },
+    indicator: {
+      pointer: {
+        style: {
+          stroke: '#D0D0D0',
+        },
+      },
+      pin: {
+        style: {
+          stroke: '#D0D0D0',
+        },
+      },
+    },
+    statistic: {
+      content: {
+        formatter: () => {
+          return `Mean: ${data.mean.toFixed(2)}`;
+        },
+      },
+      style: {
+        fontSize: 60,
+      },
+    },
+    gaugeStyle: {
+      lineCap: 'round',
+    }
+  };
+
+  return (
+    <>
+      <FormControl sx={{ m: 1, minWidth: 120 }} size="small">
+        <Select
+          displayEmpty
+          value={colId}
+          onChange={(event) => setColId(event.target.value as number)}
+        >
+          {columns.map(c => (<MenuItem key={c.id} value={c.id}>{c.name}</MenuItem>))}
+        </Select>
+      </FormControl>
+      <Gauge {...config} />
+    </>
+  );
+}
+

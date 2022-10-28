@@ -3,6 +3,7 @@
   "version": "1.0.0",
   "license": "MIT",
   "homepage": "https://github.com/Megaputer/external-components",
+  "description": "Contains external component examples",
   "scripts": {
     "dev": "webpack --config ./webpack.config.js --progress",
     "dev:watch": "webpack --config ./webpack.config.js --watch --progress",

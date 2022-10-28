@@ -3,11 +3,10 @@
 To run this locally:
 
 1. Run `git clone https://github.com/Megaputer/external-components.git`
-2. Install all dependencies using `yarn` or `npm install`
-3. Create symbolic link from `./data/externals` to `./external-components/build`
-4. Create file `wr-externals.json` in folder `buid` contain `["DSWidget.js"]`. A file `DSWidget.js` contain the compiled sources of external widgets.
-5. Start the development server using `yarn dev:watch` or `npm run dev:watch`
-6. Build external components using `yarn dev` or `npm run dev`
+2. Run `yarn`
+3. Run `yarn dev`
+4. Copy `build/DSWidget.js` to a PA6 installation directory by path `data/externals/DSWidget.js`
+5. Edit `data/externals/wr-externals.json` inside PA6 installation directory which will contain `["DSWidget.js"]`
 
 
 ## List of examples:

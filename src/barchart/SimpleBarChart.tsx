@@ -18,9 +18,16 @@ interface Props {
   args?: WidgetArgs;
 }
 
+type DataType = {
+  name: string,
+  total: number,
+  value: string | number,
+  color: string
+};
+
 export const SimpleBarChart: React.FC<Props> = ({ requestor, args }) => {
-  const [data, setData] = React.useState<{ name: string, total: number }[]>([]);
-  const [columns, setColumns] = React.useState<{ name: string, id: number }[]>([]);
+  const [data, setData] = React.useState<DataType[]>([]);
+  const [columns, setColumns] = React.useState<{ name: string, id: number, type: string }[]>([]);
   const [colId, setColId] = React.useState(-1);
   const wrapperGuid = React.useRef<{ wrapperGuid: string }>({ wrapperGuid: '' });
 
@@ -31,8 +38,8 @@ export const SimpleBarChart: React.FC<Props> = ({ requestor, args }) => {
 
       const columns = dsInfo.columns.map((c: any) => ({ name: c.title, id: c.id }));
       if (columns.length) {
-        setColId(columns[0].id);
-        setColumns(dsInfo.columns.map((c: any) => ({ name: c.title, id: c.id })));
+        colId == -1 && setColId(columns[0].id);
+        setColumns(dsInfo.columns.map((c: any) => ({ name: c.title, id: c.id, type: c.type })));
       }
     };
     fetchData();
@@ -50,15 +57,20 @@ export const SimpleBarChart: React.FC<Props> = ({ requestor, args }) => {
         rowCount: dsInfo.rowCount,
         wrapperGuid: distinctWrapperGuid.wrapperGuid
       });
-      setData(values.table!.map((v: any) => ({ name: v[0], total: v[1] })));
+      setData(values.rowIDs.map((idx) => {
+        const tableValue = values.table?.[idx]?.[0];
+        const value = columns[colId].type == 'String' ? values.textIDs?.[0]?.[idx] : tableValue;
+        const total = Number(values.table?.[idx][1]);
+        return { name: tableValue!.toString(), total, value, color: getRandomColor() };
+      }));
     };
     if (wrapperGuid.current && colId != -1)
       getValues();
-  }, [colId]);
+  }, [colId, wrapperGuid.current]);
 
-  const onClick = ({ activePayload }: CategoricalChartState) => {
-    if (activePayload && colId != -1) {
-      const value = activePayload[0].payload.name;
+  const onClick = (data: CategoricalChartState) => {
+    if (data?.activePayload && colId != -1) {
+      const value = data.activePayload[0].payload.value;
       const condition: TConditionNode = {
         borderCond: 1,
         dVal: value,
@@ -99,7 +111,7 @@ export const SimpleBarChart: React.FC<Props> = ({ requestor, args }) => {
             <YAxis />
             <Tooltip />
             <Bar dataKey="total" fill={'#00a0fc'} label='Total'>
-              {data.map((_: any, i: number) => <Cell key={`cell-${i}`} fill={getRandomColor()} />)}
+              {data.map((d: DataType) => <Cell key={`cell-${d.name}`} fill={d.color} />)}
             </Bar>
           </BarChart>
         </ResponsiveContainer>

@@ -1,5 +1,4 @@
 import * as React from 'react';
-import { FormControl, MenuItem, Select } from '@mui/material';
 import {
   BarChart,
   Bar,
@@ -10,8 +9,8 @@ import {
   ResponsiveContainer,
   Cell
 } from 'recharts';
-import type { CategoricalChartState } from 'recharts/types/chart/generateCategoricalChart';
 import type { TConditionNode, ApiRequestor } from 'pa-typings';
+import { Select, type Column } from 'Select';
 
 interface Props {
   requestor: ApiRequestor;
@@ -27,9 +26,11 @@ type DataType = {
 
 export const SimpleBarChart: React.FC<Props> = ({ requestor, args }) => {
   const [data, setData] = React.useState<DataType[]>([]);
-  const [columns, setColumns] = React.useState<{ name: string, id: number, type: string }[]>([]);
+  const [columns, setColumns] = React.useState<Column[]>([]);
   const [colId, setColId] = React.useState(-1);
   const wrapperGuid = React.useRef<{ wrapperGuid: string }>({ wrapperGuid: '' });
+  const ref = React.useRef<HTMLDivElement>(null);
+  const colorsRef = React.useRef<string[]>([]);
 
   React.useEffect(() => {
     const fetchData = async () => {
@@ -57,65 +58,75 @@ export const SimpleBarChart: React.FC<Props> = ({ requestor, args }) => {
         rowCount: dsInfo.rowCount,
         wrapperGuid: distinctWrapperGuid.wrapperGuid
       });
+      const countColors = colorsRef.current.length;
+      if (values.rowIDs.length > countColors) {
+        values.rowIDs.forEach((_: unknown, i) => {
+          const needIndex = countColors > i ? countColors + i : i;
+          colorsRef.current[needIndex] = getRandomColor();
+        });
+      }
+
       setData(values.rowIDs.map((idx) => {
         const tableValue = values.table?.[idx]?.[0];
         const value = columns[colId].type == 'String' ? values.textIDs?.[0]?.[idx] : tableValue;
         const total = Number(values.table?.[idx][1]);
-        return { name: tableValue!.toString(), total, value, color: getRandomColor() };
+        return { name: tableValue!.toString(), total, value, color: colorsRef.current[idx] };
       }));
     };
     if (wrapperGuid.current && colId != -1)
       getValues();
   }, [colId, wrapperGuid.current]);
 
-  const onClick = (data: CategoricalChartState) => {
-    if (data?.activePayload && colId != -1) {
-      const value = data.activePayload[0].payload.value;
+  const onDrillDown = (data: any, navigate?: boolean) => {
+    if (data?.payload && colId != -1) {
+      const value = data.payload.value;
       const condition: TConditionNode = {
         borderCond: 1,
         dVal: value,
         dVal2: value + 1,
         columnName: columns[colId].name
       };
-      args?.openDrillDown(condition, {});
+      args?.openDrillDown(condition, { navigate });
     }
   }
 
   return (
     <>
-      <FormControl sx={{ m: 1, minWidth: 120 }} size="small">
-        <Select
-          displayEmpty
-          value={colId}
-          onChange={(event) => setColId(event.target.value as number)}
-        >
-          {columns.map(c => (<MenuItem key={c.id} value={c.id}>{c.name}</MenuItem>))}
-        </Select>
-      </FormControl>
-      <div style={{ width: "100%", height: 300 }}>
-        <ResponsiveContainer>
-          <BarChart
-            width={500}
-            height={300}
-            data={data}
-            margin={{
-              top: 5,
-              right: 30,
-              left: 20,
-              bottom: 5
-            }}
-            onClick={onClick}
-          >
-            <CartesianGrid strokeDasharray='3 3' />
-            <XAxis dataKey='name' />
-            <YAxis />
-            <Tooltip />
-            <Bar dataKey="total" fill={'#00a0fc'} label='Total'>
-              {data.map((d: DataType) => <Cell key={`cell-${d.name}`} fill={d.color} />)}
-            </Bar>
-          </BarChart>
-        </ResponsiveContainer>
-      </div>
+      <Select
+        ref={ref}
+        colId={colId}
+        setColId={setColId}
+        columns={columns}
+      />
+      { ref.current && (
+        <div style={{ width: '100%', height: `calc(100% - ${ref.current.clientHeight}px)` }}>
+          <ResponsiveContainer debounce={100}>
+              <BarChart
+                data={data}
+                margin={{
+                  top: 5,
+                  right: 30,
+                  left: 20,
+                  bottom: 5
+                }}
+              >
+                <CartesianGrid strokeDasharray='3 3' />
+                <XAxis dataKey='name' />
+                <YAxis />
+                <Tooltip />
+                <Bar
+                  dataKey="total"
+                  fill={'#00a0fc'}
+                  label='Total'
+                  onClick={(data) => onDrillDown(data)}
+                  onDoubleClick={(data) => onDrillDown(data, true)}
+                >
+                  {data.map((d: DataType) => <Cell key={`cell-${d.name}`} fill={d.color} />)}
+                </Bar>
+              </BarChart>
+            </ResponsiveContainer>
+        </div>
+      )}
     </>
   );
 }

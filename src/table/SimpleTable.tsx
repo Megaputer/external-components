@@ -59,7 +59,7 @@ export const SimpleTable: React.FC<Props> = ({ requestor, args }) => {
     setPage(0);
   };
 
-  const onDrillDown = async (selectedRow: number) => {
+  const onDrillDown = async (selectedRow: number, navigate?: boolean ) => {
     const data = await requestor.values({
       wrapperGuid: wrapperGuid.wrapperGuid,
       columnIndexes: columns.map((c) => c.id),
@@ -74,13 +74,13 @@ export const SimpleTable: React.FC<Props> = ({ requestor, args }) => {
         return { columnName: col.title, dVal };
       }));
     }));
-    args?.openDrillDown(condition, {});
+    args?.openDrillDown(condition, { navigate });
   }
 
   return (
-    <Paper sx={{ width: '100%', overflow: 'hidden' }}>
-      <TableContainer sx={{ maxHeight: 400 }}>
-        <Table stickyHeader>
+    <Paper square>
+      <TableContainer>
+        <Table>
           <TableHead>
             <TableRow>
               {columns.map(c => <TableCell key={c.id}>{c.title}</TableCell>)}
@@ -95,6 +95,7 @@ export const SimpleTable: React.FC<Props> = ({ requestor, args }) => {
                 role='checkbox'
                 tabIndex={-1}
                 onClick={() => onDrillDown(i)}
+                onDoubleClick={() => onDrillDown(i, true)}
               >
                 {row.map((r: string, i: number) => <TableCell key={i} align="right">{r}</TableCell>)}
               </TableRow>

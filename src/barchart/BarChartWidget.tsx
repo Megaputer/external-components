@@ -2,6 +2,7 @@ import * as React from 'react';
 import { createRoot, Root } from 'react-dom/client';
 import { type ApiRequestor } from 'pa-typings';
 import { SimpleBarChart } from 'barchart/SimpleBarChart';
+import * as scss from './styles.scss';
 
 export class BarChartWidget implements ExternalDSWidget {
   private requestor: ApiRequestor | null = null;
@@ -19,6 +20,7 @@ export class BarChartWidget implements ExternalDSWidget {
   }
 
   render(parent: HTMLElement) {
+    parent.className = scss.parent;
     this.root = createRoot(parent);
     this.updateContainer();
   }

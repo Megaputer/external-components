@@ -1,7 +1,8 @@
 import * as React from 'react';
 import { type ApiRequestor } from 'pa-typings';
-import { FormControl, MenuItem, Select } from '@mui/material';
 import { Gauge } from '@ant-design/plots';
+import { Select, type Column } from 'Select';
+import * as scss from './styles.scss'
 
 interface Props {
   requestor: ApiRequestor;
@@ -9,11 +10,11 @@ interface Props {
 }
 
 export const Statistics: React.FC<Props> = ({ requestor }) => {
-  const [columns, setColumns] = React.useState<{ name: string, id: number }[]>([]);
+  const [columns, setColumns] = React.useState<Column[]>([]);
   const [colId, setColId] = React.useState(-1);
   const wrapperGuid = React.useRef<{ wrapperGuid: string }>({ wrapperGuid: '' });
-
   const [data, setData] = React.useState({ min: 0, max: 100, mean: 23 });
+  const ref = React.useRef<HTMLDivElement>(null);
 
   React.useEffect(() => {
     const fetchData = async () => {
@@ -51,7 +52,7 @@ export const Statistics: React.FC<Props> = ({ requestor }) => {
     if (wrapperGuid.current && colId != -1) {
       fetchData();
     }
-  }, [colId]);
+  }, [colId, requestor]);
 
   const Normalizer = (min: number, max: number) => ({
     normalize: (x: number) => min + x * (max - min),
@@ -102,18 +103,19 @@ export const Statistics: React.FC<Props> = ({ requestor }) => {
   };
 
   return (
-    <>
-      <FormControl sx={{ m: 1, minWidth: 120 }} size="small">
-        <Select
-          displayEmpty
-          value={colId}
-          onChange={(event) => setColId(event.target.value as number)}
-        >
-          {columns.map(c => (<MenuItem key={c.id} value={c.id}>{c.name}</MenuItem>))}
-        </Select>
-      </FormControl>
-      <Gauge {...config} />
-    </>
+    <div className={scss.fullSize}>
+      <Select
+        ref={ref}
+        colId={colId}
+        setColId={setColId}
+        columns={columns}
+      />
+      { ref.current && (
+          <div style={{ width: '100%', height: `calc(100% - ${ref.current.clientHeight}px)` }}>
+            <Gauge {...config} />
+          </div>
+        )}
+    </div>
   );
 }
 

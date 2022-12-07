@@ -12,6 +12,8 @@ import {
 import type { TConditionNode, ApiRequestor } from 'pa-typings';
 import { Select, type Column } from 'Select';
 
+import { variantToDate } from 'helper';
+
 interface Props {
   requestor: ApiRequestor;
   args?: WidgetArgs;
@@ -37,10 +39,12 @@ export const SimpleBarChart: React.FC<Props> = ({ requestor, args }) => {
       const guid = wrapperGuid.current = await requestor.wrapperGuid();
       let dsInfo = await requestor.info(guid);
 
-      const columns = dsInfo.columns.map((c: any) => ({ name: c.title, id: c.id }));
+      const columns = dsInfo.columns
+        .filter(c => c.type != 'Text')
+        .map((c) => ({ name: c.title, id: c.id, type: c.type }));
       if (columns.length) {
         colId == -1 && setColId(columns[0].id);
-        setColumns(dsInfo.columns.map((c: any) => ({ name: c.title, id: c.id, type: c.type })));
+        setColumns(columns);
       }
     };
     fetchData();
@@ -67,10 +71,14 @@ export const SimpleBarChart: React.FC<Props> = ({ requestor, args }) => {
       }
 
       setData(values.rowIDs.map((idx) => {
-        const tableValue = values.table?.[idx]?.[0];
-        const value = columns[colId].type == 'String' ? values.textIDs?.[0]?.[idx] : tableValue;
+        let tableValue = values.table?.[idx]?.[0];
+        let value = tableValue;
+        if (columns[colId].type == 'DateTime')
+          tableValue = variantToDate(tableValue).toLocaleDateString('ru-RU');
+        if (columns[colId].type == 'String')
+          value = values.textIDs?.[0]?.[idx];
         const total = Number(values.table?.[idx][1]);
-        return { name: tableValue!.toString(), total, value, color: colorsRef.current[idx] };
+        return { name: tableValue.toString(), total, value, color: colorsRef.current[idx] };
       }));
     };
     if (wrapperGuid.current && colId != -1)
@@ -139,3 +147,4 @@ function getRandomColor() {
   }
   return color;
 }
+

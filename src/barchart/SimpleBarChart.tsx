@@ -71,7 +71,7 @@ export const SimpleBarChart: React.FC<Props> = ({ requestor, args }) => {
       }
 
       setData(values.rowIDs.map((idx) => {
-        let tableValue = values.table?.[idx]?.[0];
+        let tableValue = values.table?.[idx]?.[0] || 'missing';
         let value = tableValue;
         if (columns[colId].type == 'DateTime')
           tableValue = variantToDate(tableValue).toLocaleDateString('ru-RU');
@@ -94,6 +94,10 @@ export const SimpleBarChart: React.FC<Props> = ({ requestor, args }) => {
         dVal2: value + 1,
         columnName: columns[colId].name
       };
+      if (data?.payload?.name == 'missing') {
+        condition.dVal2 = undefined;
+        condition.borderCond = undefined;
+      }
       args?.openDrillDown(condition, { navigate });
     }
   }

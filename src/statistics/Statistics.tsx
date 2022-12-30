@@ -12,13 +12,14 @@ interface Props {
 export const Statistics: React.FC<Props> = ({ requestor }) => {
   const [columns, setColumns] = React.useState<Column[]>([]);
   const [colId, setColId] = React.useState(-1);
-  const wrapperGuid = React.useRef<{ wrapperGuid: string }>({ wrapperGuid: '' });
-  const [data, setData] = React.useState({ min: 0, max: 100, mean: 23 });
+  const [wrapperGuid, setWrapperGuid] = React.useState('');
+  const [range, setRange] = React.useState<number[]>([0, 0]);
+  const [mean, setMean] = React.useState(0);
   const ref = React.useRef<HTMLDivElement>(null);
 
   React.useEffect(() => {
     const fetchData = async () => {
-      const guid = wrapperGuid.current = await requestor.wrapperGuid();
+      const guid = await requestor.wrapperGuid();
       let dsInfo = await requestor.info(guid);
 
       const columns = dsInfo.columns
@@ -29,39 +30,53 @@ export const Statistics: React.FC<Props> = ({ requestor }) => {
         setColId(columns[0].id);
         setColumns(columns);
       }
+      setWrapperGuid(guid.wrapperGuid);
     };
     fetchData();
   }, [requestor]);
 
   React.useEffect(() => {
-    const fetchData = async () => {
-      const stat = await requestor.statistics!({ wrapperGuid: wrapperGuid.current.wrapperGuid, columnId: colId });
-      let min = 0, max = 0, mean = 0;
+    const fetchMinMax = async () => {
+      const stat = await requestor.statistics!({ wrapperGuid, columnId: colId });
+      const range = [0, 0];
       for (const s of stat.basicStatistics) {
         if (s.value == undefined)
           continue;
         if (s.type == 'MINIMUM')
-          min = +s.value;
+          range[0] = +s.value;
         if (s.type == 'MAXIMUM')
-          max = +s.value;
-        if (s.type == 'MEAN')
+          range[1] = +s.value;
+      }
+      setRange(range);
+    };
+    if (wrapperGuid && colId != -1) {
+      fetchMinMax();
+    }
+  }, [colId]);
+
+  React.useEffect(() => {
+    const fetchMean = async () => {
+      const stat = await requestor.statistics!({ wrapperGuid, columnId: colId });
+      let mean = 0;
+      for (const s of stat.basicStatistics) {
+        if (s.value != undefined && s.type == 'MEAN')
           mean = +s.value;
       }
-      setData({ min, max, mean });
+      setMean(mean);
     };
-    if (wrapperGuid.current && colId != -1) {
-      fetchData();
+    if (wrapperGuid && colId != -1) {
+      fetchMean();
     }
-  }, [colId, requestor]);
+  }, [colId, wrapperGuid]);
 
   const Normalizer = (min: number, max: number) => ({
     normalize: (x: number) => min + x * (max - min),
     denormalize: (x: number) => (x - min) / (max - min)
   });
-  const gaugeNormalizer = Normalizer(data.min, data.max);
+  const gaugeNormalizer = Normalizer(range[0], range[1]);
 
   const config = {
-    percent: gaugeNormalizer.denormalize(data.mean),
+    percent: gaugeNormalizer.denormalize(mean),
     range: {
       color: '#30BF78',
       width: 12,
@@ -90,7 +105,7 @@ export const Statistics: React.FC<Props> = ({ requestor }) => {
     statistic: {
       content: {
         formatter: () => {
-          return `Mean: ${data.mean.toFixed(2)}`;
+          return `Mean: ${mean.toFixed(2)}`;
         },
       },
       style: {

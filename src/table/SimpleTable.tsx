@@ -1,5 +1,5 @@
 import * as React from 'react';
-import { type ApiRequestor, ColumnInfo } from 'pa-typings';
+import type { TConditionNode, ApiRequestor, ColumnInfo } from 'pa-typings';
 
 import Table from '@mui/material/Table';
 import TableBody from '@mui/material/TableBody';
@@ -15,9 +15,10 @@ import { joinAnd, joinOr } from 'helper';
 interface Props {
   requestor: ApiRequestor;
   args?: WidgetArgs;
+  setCondition: (cond: TConditionNode) => void;
 }
 
-export const SimpleTable: React.FC<Props> = ({ requestor, args }) => {
+export const SimpleTable: React.FC<Props> = ({ requestor, args, setCondition }) => {
   const [columns, setColumns] = React.useState<ColumnInfo[]>([]);
   const [rows, setRows] = React.useState<any>([]);
   const [page, setPage] = React.useState(0);
@@ -74,6 +75,7 @@ export const SimpleTable: React.FC<Props> = ({ requestor, args }) => {
         return { columnName: col.title, dVal };
       }));
     }));
+    setCondition(condition);
     args?.openDrillDown(condition, { navigate });
   }
 

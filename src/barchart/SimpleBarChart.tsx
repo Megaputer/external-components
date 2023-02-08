@@ -17,6 +17,8 @@ import { variantToDate } from 'helper';
 interface Props {
   requestor: ApiRequestor;
   args?: WidgetArgs;
+  condition?: TConditionNode;
+  setCondition: (cond: TConditionNode) => void;
 }
 
 type DataType = {
@@ -26,7 +28,7 @@ type DataType = {
   color: string
 };
 
-export const SimpleBarChart: React.FC<Props> = ({ requestor, args }) => {
+export const SimpleBarChart: React.FC<Props> = ({ requestor, args, setCondition }) => {
   const [data, setData] = React.useState<DataType[]>([]);
   const [columns, setColumns] = React.useState<Column[]>([]);
   const [colId, setColId] = React.useState(-1);
@@ -98,6 +100,7 @@ export const SimpleBarChart: React.FC<Props> = ({ requestor, args }) => {
         condition.dVal2 = undefined;
         condition.borderCond = undefined;
       }
+      setCondition(condition);
       args?.openDrillDown(condition, { navigate });
     }
   }

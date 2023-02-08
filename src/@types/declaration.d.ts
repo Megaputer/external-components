@@ -8,6 +8,8 @@ interface ExternalDSWidget {
   onUpdateAppearance();
   render(parent: HTMLElement): void;
   updateData(requestor: ApiRequestor);
+  hasSelection?(): boolean;
+  selectByDDExpression?(cond?: TConditionNode, isUserCond?: boolean);
 }
 
 interface WidgetArgs {

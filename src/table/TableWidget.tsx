@@ -1,6 +1,6 @@
 import * as React from 'react';
 import { createRoot, Root } from 'react-dom/client';
-import { type ApiRequestor } from 'pa-typings';
+import type { TConditionNode, ApiRequestor } from 'pa-typings';
 
 import { SimpleTable } from 'table/SimpleTable';
 import * as styles from './styles.scss';
@@ -8,6 +8,7 @@ import * as styles from './styles.scss';
 export class DSWidgetTable implements ExternalDSWidget {
   private requestor: ApiRequestor | null = null;
   private root: Root | null = null;
+  private condition: TConditionNode | undefined = undefined;
 
   constructor(private args: WidgetArgs) {}
 
@@ -25,9 +26,21 @@ export class DSWidgetTable implements ExternalDSWidget {
     this.updateContainer();
   }
 
+  hasSelection(): boolean {
+    return !!this.condition;
+  }
+
+  setCondition = (cond: TConditionNode) => {
+    this.condition = cond;
+  }
+
+  selectByDDExpression(cond?: TConditionNode) {
+    this.condition = cond;
+  }
+
   private updateContainer() {
     if (this.root)
-      this.root.render(<SimpleTable requestor={this.requestor!} args={this.args} />);
+      this.root.render(<SimpleTable setCondition={this.setCondition}  requestor={this.requestor!} args={this.args} />);
   }
 
   dispose(): void {

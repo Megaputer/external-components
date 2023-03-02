@@ -10,7 +10,7 @@ import TableRow from '@mui/material/TableRow';
 import Paper from '@mui/material/Paper';
 import { TablePagination } from '@mui/material';
 
-import { joinAnd, joinOr } from 'helper';
+import { joinAnd, joinOr, variantToDate } from 'helper';
 
 interface Props {
   requestor: ApiRequestor;
@@ -49,6 +49,20 @@ export const SimpleTable: React.FC<Props> = ({ requestor, args, setCondition }) 
         offset,
         rowCount
       });
+      let rows = values.table;
+      const dateTimeIds = [];
+      for (const col of columns) {
+        if (col.type === 'DateTime') {
+          dateTimeIds.push(col.id);
+        }
+      }
+
+      if (dateTimeIds.length && rows?.length) {
+        for (const r of rows) {
+          dateTimeIds.forEach(id => r[id] = variantToDate(+r[id]).toLocaleDateString());
+        }
+      }
+
       setRows(values.table);
     };
     if (wrapperGuid.wrapperGuid != '' && rowsCount.current)

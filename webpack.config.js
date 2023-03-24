@@ -3,9 +3,7 @@ module.exports = function(env) {
   const webpack = require('webpack');
   const CircularDependencyPlugin = require('circular-dependency-plugin');
   const ForkTsCheckerWebpackPlugin = require('fork-ts-checker-webpack-plugin');
-  const MiniCssExtractPlugin = require('mini-css-extract-plugin');
 
-  const prod = env && env.prod;
   const config = {
     entry: ['./src/DSWidget.ts',
     ],
@@ -21,7 +19,7 @@ module.exports = function(env) {
     },
     target: 'web',
     mode: 'production',
-    devtool: prod ? false : 'cheap-module-source-map',
+    devtool: 'cheap-module-source-map',
     resolve: {
       extensions: ['.ts', '.tsx', '.js'],
       modules: [path.resolve('./src'),'node_modules'],
@@ -92,13 +90,5 @@ module.exports = function(env) {
       new webpack.HotModuleReplacementPlugin()
     ]
   };
-
-  if (prod) {
-    config.plugins.push(
-      new MiniCssExtractPlugin({
-        filename: '[name].css'
-      })
-    );
-  }
   return config;
 };

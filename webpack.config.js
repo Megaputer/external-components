@@ -5,7 +5,8 @@ module.exports = function(env) {
   const ForkTsCheckerWebpackPlugin = require('fork-ts-checker-webpack-plugin');
 
   const config = {
-    entry: ['./src/DSWidget.ts',
+    entry: [
+      './src/DSWidget.ts',
     ],
     output: {
       path: path.resolve(__dirname, 'build'),
@@ -14,7 +15,7 @@ module.exports = function(env) {
       libraryTarget: 'window',
     },
     optimization: {
-      minimize: false,
+      minimize: true,
       usedExports: true
     },
     target: 'web',

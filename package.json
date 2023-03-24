@@ -5,8 +5,8 @@
   "homepage": "https://github.com/Megaputer/external-components",
   "description": "Contains external component examples",
   "scripts": {
-    "dist": "webpack --config ./webpack.config.js --progress",
-    "dev:watch": "webpack --config ./webpack.config.js --watch --progress",
+    "dist": "yarn && webpack --config ./webpack.config.js --progress",
+    "dev:watch": "yan dist --watch",
     "eslint": "node node_modules/eslint/bin/eslint src --ext ts,tsx"
   },
   "dependencies": {

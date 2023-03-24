@@ -14,13 +14,11 @@
   "files.encoding": "utf8",
   "files.exclude": {
     "**/node_modules": true,
-    "build": true
   },
   "files.insertFinalNewline": true,
   "files.trimTrailingWhitespace": true,
   "search.exclude": {
     "**/node_modules": true,
-    "build": true
   },
   "typescript.tsdk": "./node_modules/typescript/lib"
 }

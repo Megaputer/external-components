@@ -1,4 +1,4 @@
-module.exports = function(env) {
+module.exports = function() {
   const path = require('path');
   const webpack = require('webpack');
   const CircularDependencyPlugin = require('circular-dependency-plugin');

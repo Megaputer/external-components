@@ -6,7 +6,7 @@
   "description": "Contains external component examples",
   "scripts": {
     "dist": "yarn && webpack --config ./webpack.config.js --progress",
-    "dev:watch": "yan dist --watch",
+    "dev:watch": "yarn dist --watch",
     "eslint": "node node_modules/eslint/bin/eslint src --ext ts,tsx"
   },
   "dependencies": {

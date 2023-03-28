@@ -1,11 +1,12 @@
-module.exports = function(env) {
+module.exports = function() {
   const path = require('path');
   const webpack = require('webpack');
   const CircularDependencyPlugin = require('circular-dependency-plugin');
   const ForkTsCheckerWebpackPlugin = require('fork-ts-checker-webpack-plugin');
 
   const config = {
-    entry: ['./src/DSWidget.ts',
+    entry: [
+      './src/DSWidget.ts',
     ],
     output: {
       path: path.resolve(__dirname, 'build'),
@@ -14,7 +15,7 @@ module.exports = function(env) {
       libraryTarget: 'window',
     },
     optimization: {
-      minimize: false,
+      minimize: true,
       usedExports: true
     },
     target: 'web',

@@ -4,10 +4,9 @@ To run this locally:
 
 1. Run `git clone https://github.com/Megaputer/external-components.git`
 2. Go to directory with `cd external-components`
-3. Run `yarn`
-4. Run `yarn dist`
-5. Copy `build/DSWidget.js` to a PA6 installation directory by path `data/externals/DSWidget.js`
-6. Edit `data/externals/wr-externals.json` inside PA6 installation directory which will contain `["DSWidget.js"]`
+3. Run `yarn dist`
+4. Copy `build/DSWidget.js` to a PA6 installation directory by path `data/externals/DSWidget.js`
+5. Edit `data/externals/wr-externals.json` inside PA6 installation directory which will contain `["DSWidget.js"]`
 
 
 ## List of examples:

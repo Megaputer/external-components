@@ -5,7 +5,8 @@ To run this locally:
 1. Run `git clone https://github.com/Megaputer/external-components.git`
 2. Go to directory with `cd external-components`
 3. Run `yarn dist`
-4. Copy `build/DSWidget.js` to a PA6 installation directory by path `data/externals/DSWidget.js`
+4. Copy `build/MyWidgets.js` to a `<PA6 installation directory>/data/externals/MyWidgets.js` or use parameter `--output-path` for set output location of the bundle file.
+ Example: `yarn dist:watch --output-path=\"C:/Megaputer Intelligence/PolyAnalyst 6.5 Server 64-bit/data/externals\"`
 5. Edit `data/externals/wr-externals.json` inside PA6 installation directory which will contain `["DSWidget.js"]`
 
 

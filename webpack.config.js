@@ -1,9 +1,10 @@
-module.exports = function() {
+module.exports = function(_, argv) {
   const path = require('path');
   const webpack = require('webpack');
   const CircularDependencyPlugin = require('circular-dependency-plugin');
   const ForkTsCheckerWebpackPlugin = require('fork-ts-checker-webpack-plugin');
 
+  const isProduction = argv.mode === 'production';
   const config = {
     entry: [
       './src/DSWidget.ts',
@@ -15,12 +16,12 @@ module.exports = function() {
       libraryTarget: 'window',
     },
     optimization: {
-      minimize: true,
+      minimize: isProduction,
       usedExports: true
     },
     target: 'web',
-    mode: 'production',
-    devtool: 'cheap-module-source-map',
+    mode: argv.mode,
+    devtool: isProduction ? false : 'cheap-module-source-map',
     resolve: {
       extensions: ['.ts', '.tsx', '.js'],
       modules: [path.resolve('./src'),'node_modules'],

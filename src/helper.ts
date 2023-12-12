@@ -28,3 +28,7 @@ export function variantToDate(daysAfterBaseDate: number, dateOnly?: boolean): Da
   const ms = dateOnly ? MS_PER_DAY * Math.trunc(daysAfterBaseDate) : Math.round(MS_PER_DAY * daysAfterBaseDate);
   return new Date(BASE_DATE + ms);
 }
+
+export  function dateToVariant(date: Date) {
+  return 25569.0 + ((date.getTime() - (date.getTimezoneOffset() * 60 * 1000)) / (1000 * 60 * 60 * 24));
+}

@@ -18,3 +18,4 @@ To run this locally:
 - TableWidget - Example of displaying data using `SimpleTable` and work `EDD-expression`
 - BarChartWidget - Example of using the `disctinct` handler, displaying results as a chart and EDD processing (by clicking a bar)
 - StatisticsWidget - Example of using the handler `statistics` to get statistics from data
+- Calendar - Example of using the `filter` handler, displaying results as a calendar and EDD processing (by clicking a date)

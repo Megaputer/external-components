@@ -4,6 +4,7 @@ import { SimpleWidget } from 'simple/SimpleWidget';
 import { EditorPublicationWidget } from 'EditorPublicationWidget';
 import { AppearanceWidget } from 'appearance/AppearanceWidget';
 import { BarChartWidget } from 'barchart/BarChartWidget';
+import { CalendarWidget } from 'calendar/CalendarWidget';
 
 export function getDSWidgets() {
   return [
@@ -36,6 +37,11 @@ export function getDSWidgets() {
       viewType: 'stats-widget',
       name: 'Statistics widget',
       create: (args: WidgetArgs) => new StatisticsWidget(args)
+    },
+    {
+      viewType: 'calendar-widget',
+      name: 'Calendar widget',
+      create: (args: WidgetArgs) => new CalendarWidget(args)
     }
   ];
 }

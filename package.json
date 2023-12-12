@@ -7,17 +7,23 @@
   "scripts": {
     "dist": "yarn && webpack --config ./webpack.config.js --progress --mode=production",
     "dist:watch": "yarn dist --watch --mode=development",
+    "dev": "yarn && webpack --config ./webpack.config.js --progress --mode=development --output-path=\"D:/work/pa6/trunk/x64/data/externals\"",
+    "dev:watch": "yarn dev --watch",
     "eslint": "node node_modules/eslint/bin/eslint src --ext ts,tsx"
   },
   "dependencies": {
     "@ant-design/plots": "1.2.2",
     "@emotion/react": "11.10.0",
     "@emotion/styled": "11.10.0",
+    "@mantine/core": "6.0.13",
+    "@mantine/dates": "6.0.13",
+    "@mantine/hooks": "6.0.13",
     "@mui/icons-material": "5.10.3",
     "@mui/material": "5.10.2",
     "@types/node": "16.11.49",
     "@types/react": "18.0.17",
     "@types/react-dom": "18.0.6",
+    "dayjs": "1.11.10",
     "moment": "2.29.4",
     "react": "18.2.0",
     "react-dom": "18.2.0",

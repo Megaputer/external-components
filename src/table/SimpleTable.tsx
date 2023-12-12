@@ -75,16 +75,17 @@ export const SimpleTable: React.FC<Props> = ({ requestor, args, setCondition }) 
   };
 
   const onDrillDown = async (selectedRow: number, navigate?: boolean ) => {
+    const offset = page * rowsPerPage;
     const data = await requestor.values({
       wrapperGuid: wrapperGuid.wrapperGuid,
       columnIndexes: columns.map((c) => c.id),
-      rowIDs: [selectedRow],
-      rowCount: 100,
-      offset: 0
+      rowIDs: [offset + selectedRow],
+      rowCount: rowsPerPage,
+      offset
     });
 
     const condition = joinOr(data.rowIDs.map((rowID: string, i: number) => {
-      return joinAnd(columns.map((col, idx) => {
+      return joinAnd(columns.filter(c => c.type !== 'Text').map((col, idx) => {
         const dVal = data.textIDs?.[idx]?.[rowID] || data.table?.[i]?.[idx];
         return { columnName: col.title, dVal };
       }));

@@ -7,8 +7,6 @@
   "scripts": {
     "dist": "yarn && webpack --config ./webpack.config.js --progress --mode=production",
     "dist:watch": "yarn dist --watch --mode=development",
-    "dev": "yarn && webpack --config ./webpack.config.js --progress --mode=development --output-path=\"D:/work/pa6/trunk/x64/data/externals\"",
-    "dev:watch": "yarn dev --watch",
     "eslint": "node node_modules/eslint/bin/eslint src --ext ts,tsx"
   },
   "dependencies": {

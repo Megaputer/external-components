@@ -34,7 +34,9 @@ export  const Calendar: React.FC<Props> = ({ requestor, args, setCondition }) =>
       if(!dsInfo.rowCount)
         return;
 
+      const columnIndexes = dsInfo.columns.filter(c => c.type === 'DateTime').map(c => c.id);
       const values = await requestor.values({
+        columnIndexes,
         offset: 0,
         rowCount: 1,
         wrapperGuid: guid.wrapperGuid

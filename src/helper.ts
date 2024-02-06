@@ -29,6 +29,6 @@ export function variantToDate(daysAfterBaseDate: number, dateOnly?: boolean): Da
   return new Date(BASE_DATE + ms);
 }
 
-export  function dateToVariant(date: Date) {
+export function dateToVariant(date: Date) {
   return 25569.0 + ((date.getTime() - (date.getTimezoneOffset() * 60 * 1000)) / (1000 * 60 * 60 * 24));
 }

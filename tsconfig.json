@@ -12,7 +12,6 @@
     "noImplicitAny": true,
     "noImplicitReturns": true,
     "noImplicitThis": true,
-    "suppressImplicitAnyIndexErrors": true,
     "useUnknownInCatchVariables": false,
     "baseUrl": "./src",
     "jsx": "react",

@@ -1,10 +1,12 @@
-import * as React from 'react';
+module.exports = function ({ name, component }) {
+  return (
+`import * as React from 'react';
 import { createRoot, Root } from 'react-dom/client';
 import type { TConditionNode, ApiRequestor } from 'pa-typings';
-import { Calendar } from './Calendar';
 
+import { ${component.name} } from './${component.filename}';
 
-export class CalendarWidget implements ExternalDSWidget {
+class ${name} implements IWidget {
   private requestor: ApiRequestor | null = null;
   private root: Root | null = null;
   private condition: TConditionNode | undefined = undefined;
@@ -25,15 +27,14 @@ export class CalendarWidget implements ExternalDSWidget {
     this.updateContainer();
   }
 
-  setCondition = (cond: TConditionNode) => {
-    this.condition = cond;
-  }
-
   private updateContainer() {
     if (this.root && this.requestor)
-      this.root.render(
-        <Calendar setCondition={this.setCondition} requestor={this.requestor} args={this.args} />);
+      this.root.render(<${component.name} requestor={this.requestor} />);
   }
 
   dispose(): void { }
+}
+
+export const create = (args: WidgetArgs) => new ${name}(args);`
+);
 }

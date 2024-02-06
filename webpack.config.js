@@ -1,23 +1,36 @@
-module.exports = function(_, argv) {
+module.exports = function(_, argv = {}) {
   const path = require('path');
   const webpack = require('webpack');
   const CircularDependencyPlugin = require('circular-dependency-plugin');
   const ForkTsCheckerWebpackPlugin = require('fork-ts-checker-webpack-plugin');
+  const CopyPlugin = require('copy-webpack-plugin');
+  const TerserPlugin = require("terser-webpack-plugin");
 
-  const isProduction = argv.mode === 'production';
+  const getConfig = require('./bin/utils');
+  const { mode = 'production', outputPath = path.resolve(__dirname, 'build') } = argv;
+  const isProduction = mode === 'production';
+  const { entry, patterns } = getConfig(outputPath, Boolean(argv.outputPath));
+
   const config = {
-    entry: [
-      './src/DSWidget.ts',
-    ],
+    entry,
     output: {
-      path: path.resolve(__dirname, 'build'),
-      filename: 'DSWidget.js',
-      library: 'DSWidget',
+      path: outputPath,
+      filename: '[name].js',
+      library: {
+        name: '[name]',
+        type: 'self',
+      },
       libraryTarget: 'window',
+      clean: isProduction
     },
     optimization: {
       minimize: isProduction,
-      usedExports: true
+      usedExports: false,
+      minimizer: [
+        new TerserPlugin({
+          extractComments: false,
+        }),
+      ],
     },
     target: 'web',
     mode: argv.mode,
@@ -84,12 +97,11 @@ module.exports = function(_, argv) {
 
     plugins: [
       new ForkTsCheckerWebpackPlugin(),
-      new webpack.NoEmitOnErrorsPlugin(),
       new CircularDependencyPlugin({
         exclude: /node_modules/,
         failOnError: true
       }),
-      new webpack.HotModuleReplacementPlugin()
+      new CopyPlugin({ patterns })
     ]
   };
   return config;

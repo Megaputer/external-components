@@ -3,8 +3,8 @@ declare module "*.scss" {
   export = content;
 }
 
-interface ExternalDSWidget {
-  dispose?(): void;
+interface IWidget {
+  dispose(): void;
   onUpdateAppearance();
   render(parent: HTMLElement): void;
   updateData(requestor: ApiRequestor);

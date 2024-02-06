@@ -1,0 +1,6 @@
+{
+  "guid": "2d383be8-d3dd-4f3c-a8de-482329b226fa",
+  "name": "Table",
+  "icon": "",
+  "description": "Example of displaying data using `SimpleTable` and work `EDD-expression`"
+}

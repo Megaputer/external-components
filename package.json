@@ -7,6 +7,8 @@
   "scripts": {
     "dist": "yarn && webpack --config ./webpack.config.js --progress --mode=production",
     "dist:watch": "yarn dist --watch --mode=development",
+    "create:widget": "node ./bin/generator.js",
+    "archive": "node ./bin/archiver.js",
     "eslint": "node node_modules/eslint/bin/eslint src --ext ts,tsx"
   },
   "dependencies": {
@@ -35,21 +37,26 @@
     "@typescript-eslint/parser": "5.36.2",
     "circular-dependency-plugin": "5.2.2",
     "clean-webpack-plugin": "4.0.0",
-    "copy-webpack-plugin": "11.0.0",
+    "copy-webpack-plugin": "12.0.2",
     "css-loader": "6.7.1",
     "css-minimizer-webpack-plugin": "4.0.0",
     "eslint": "8.24.0",
     "fork-ts-checker-webpack-plugin": "7.2.13",
     "html-webpack-plugin": "5.5.0",
+    "inquirer": "8.0.0",
+    "jszip": "3.10.1",
     "mini-css-extract-plugin": "2.6.1",
     "pa-typings": "https://github.com/Megaputer/pa-typings.git#e8f5bbcbf151965ff8a95ab33cf211fc85d135b3",
     "postcss-loader": "7.0.1",
     "sass": "1.54.4",
     "sass-loader": "13.0.2",
     "style-loader": "3.3.1",
+    "terser-webpack-plugin": "5.3.10",
     "ts-loader": "9.3.1",
+    "uuid": "9.0.1",
     "webpack": "5.74.0",
     "webpack-cli": "4.10.0",
-    "webpack-dev-server": "4.10.0"
+    "webpack-dev-server": "4.10.0",
+    "yargs": "17.7.2"
   }
 }

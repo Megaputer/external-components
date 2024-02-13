@@ -58,5 +58,8 @@
     "webpack-cli": "4.10.0",
     "webpack-dev-server": "4.10.0",
     "yargs": "17.7.2"
+  },
+  "engines": {
+    "node": ">=18.17.1"
   }
 }

@@ -35,6 +35,9 @@ export const Calendar: React.FC<Props> = ({ requestor, args, setCondition }) => 
         return;
 
       const columnIndexes = dsInfo.columns.filter(c => c.type === 'DateTime').map(c => c.id);
+      if (!columnIndexes.length)
+        return;
+
       const values = await requestor.values({
         columnIndexes,
         offset: 0,
@@ -95,7 +98,8 @@ export const Calendar: React.FC<Props> = ({ requestor, args, setCondition }) => 
       const data = getData(values);
       setMap(data);
     };
-    fetchData();
+    if (!isNaN(date.getTime()))
+      fetchData();
   }, [date.getMonth(), date.getFullYear()]);
 
   const onDrillDown = (date: Date | null) => {
@@ -129,10 +133,13 @@ export const Calendar: React.FC<Props> = ({ requestor, args, setCondition }) => 
     };
   }
 
+  if (isNaN(date.getTime()))
+    return <div>The value for the calendar is incorrect.</div>;
+
   return (
     <MantineProvider>
       <Group position="center">
-        <DatePicker
+      <DatePicker
           date={date}
           onDateChange={setDate}
           onChange={onDrillDown}

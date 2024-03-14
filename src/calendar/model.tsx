@@ -27,12 +27,23 @@ class CalendarWidget implements IWidget {
 
   setCondition = (cond: TConditionNode) => {
     this.condition = cond;
+    this.updateContainer();
+  }
+
+  selectByDDExpression(cond?: TConditionNode) {
+    this.condition = cond;
+    this.updateContainer();
   }
 
   private updateContainer() {
     if (this.root && this.requestor)
       this.root.render(
-        <Calendar setCondition={this.setCondition} requestor={this.requestor} args={this.args} />);
+        <Calendar
+          setCondition={this.setCondition}
+          condition={this.condition}
+          requestor={this.requestor}
+          args={this.args}
+        />);
   }
 
   dispose(): void { }

@@ -1,5 +1,5 @@
 import * as React from 'react';
-import type { TConditionNode, ApiRequestor, Table } from 'pa-typings';
+import type { TConditionNode, ApiRequestor, Table, ColumnInfo } from 'pa-typings';
 import { Group, MantineProvider } from '@mantine/core';
 import { DatePicker, DayProps } from '@mantine/dates';
 import { dateToVariant, variantToDate } from 'helper';
@@ -11,10 +11,12 @@ interface Props {
   setCondition: (cond: TConditionNode) => void;
 }
 
-export const Calendar: React.FC<Props> = ({ requestor, args, setCondition }) => {
+export const Calendar: React.FC<Props> = ({ requestor, args, setCondition, condition }) => {
   const wrapperGuidRef = React.useRef<{ wrapperGuid: string }>({ wrapperGuid: '' });
   const [map, setMap] = React.useState<Map<number, number>>(new Map());
   const [date, setDate] = React.useState<Date>(new Date());
+  const [value, setValue] = React.useState<Date | undefined>();
+  const [column, setColumn] = React.useState<ColumnInfo | undefined>();
 
   const getData = (values: Table) => {
     const map = new Map();
@@ -34,12 +36,13 @@ export const Calendar: React.FC<Props> = ({ requestor, args, setCondition }) => 
       if(!dsInfo.rowCount)
         return;
 
-      const columnIndexes = dsInfo.columns.filter(c => c.type === 'DateTime').map(c => c.id);
-      if (!columnIndexes.length)
+      const columns = dsInfo.columns.filter(c => c.type === 'DateTime');
+      if (!columns.length)
         return;
 
+      setColumn(columns[0]);
       const values = await requestor.values({
-        columnIndexes,
+        columnIndexes: columns.map(c => c.id),
         offset: 0,
         rowCount: 1,
         wrapperGuid: guid.wrapperGuid
@@ -51,23 +54,25 @@ export const Calendar: React.FC<Props> = ({ requestor, args, setCondition }) => 
     fetchData();
   }, [requestor]);
 
-  const filter = (action: number, month: number, year: number, wrapperGuid: string) => requestor.filter({
-    action,
-    columnId: 0,
-    day: 1,
-    delta: 0.000001,
-    howsearch: 0,
-    matchCase: false,
-    month,
-    strValue: '',
-    usePDL: false,
-    useRegEx: false,
-    value: 0,
-    wrapperGuid,
-    year,
-    columnName: '',
-    columnType: ''
-  });
+  const filter = (action: number, columnId: number, day: number, month: number, year: number, wrapperGuid: string) => {
+    return requestor.filter({
+      action,
+      columnId,
+      day,
+      delta: 0,
+      howsearch: 0,
+      matchCase: false,
+      month,
+      strValue: '',
+      usePDL: false,
+      useRegEx: false,
+      value: 0,
+      wrapperGuid,
+      year,
+      columnName: '',
+      columnType: ''
+    });
+  };
 
   React.useEffect(() => {
     if(!wrapperGuidRef.current.wrapperGuid) {
@@ -77,11 +82,20 @@ export const Calendar: React.FC<Props> = ({ requestor, args, setCondition }) => 
     const fetchData = async () => {
       const { wrapperGuid } = wrapperGuidRef.current;
 
-      const filterOnFirstToInf = await filter(5, date.getMonth() + 1, date.getFullYear(), wrapperGuid);
+      if (column == undefined)
+        return;
+
+      const filterOnFirstToInf = await filter(5, column.id, 1, date.getMonth() + 1, date.getFullYear(), wrapperGuid);
+
+      const day = new Date(date.getFullYear(), date.getMonth(), 0).getDate();
+      const year = date.getMonth() >= 11 ? date.getFullYear() + 1 : date.getFullYear();
+      const month = date.getMonth() >= 11 ? 1 : date.getMonth() + 2;
       const filterOnLastToFirst = await filter(
         3,
-        date.getMonth() >= 11 ? 1 : date.getMonth() + 2,
-        date.getMonth() >= 11 ? date.getFullYear() + 1 : date.getFullYear(),
+        column.id,
+        day,
+        month,
+        year,
         filterOnFirstToInf.wrapperGuid
       );
 
@@ -90,6 +104,7 @@ export const Calendar: React.FC<Props> = ({ requestor, args, setCondition }) => 
       const values = dsInfo.rowCount > 0
         ? await requestor.values({
             offset: 0,
+            columnIndexes: [column.id],
             rowCount: dsInfo.rowCount,
             wrapperGuid: filterOnLastToFirst.wrapperGuid
         })
@@ -100,10 +115,10 @@ export const Calendar: React.FC<Props> = ({ requestor, args, setCondition }) => 
     };
     if (!isNaN(date.getTime()))
       fetchData();
-  }, [date.getMonth(), date.getFullYear()]);
+  }, [date]);
 
   const onDrillDown = (date: Date | null) => {
-    if (!date)
+    if (!date || !column)
       return;
 
     const value = dateToVariant(date);
@@ -111,9 +126,10 @@ export const Calendar: React.FC<Props> = ({ requestor, args, setCondition }) => 
       borderCond: 1,
       dVal: value,
       dVal2: value + 1,
-      columnName: 'Date'
+      columnName: column.title
     };
 
+    setValue(date);
     setCondition(condition);
     args?.openDrillDown(condition);
   }
@@ -126,9 +142,9 @@ export const Calendar: React.FC<Props> = ({ requestor, args, setCondition }) => 
     const count = map.get(data) || 0;
     return {
       sx: (theme) => ({
-        backgroundColor: theme.colors.blue[count > 10 ? 10 : count],
+        backgroundColor: theme.colors.indigo[count > 9 ? 9 : count],
         color: count > 3 ? theme.white : theme.black,
-        ...theme.fn.hover({ backgroundColor: theme.colors.red[7] }),
+        ...theme.fn.hover({ backgroundColor: theme.colors.blue[4] }),
       }),
     };
   }
@@ -140,12 +156,26 @@ export const Calendar: React.FC<Props> = ({ requestor, args, setCondition }) => 
     <MantineProvider>
       <Group position="center">
       <DatePicker
+          styles={(theme) => ({
+            day: {
+              '&[data-selected]': {
+                backgroundColor: theme.colors.blue[4],
+              },
+              '&[data-selected]:hover': {
+                backgroundColor: theme.colors.blue[4],
+              },
+              '&[data-weekend]': {
+                fontWeight: 'bold'
+              }
+            },
+          })}
           date={date}
           onDateChange={setDate}
           onChange={onDrillDown}
           numberOfColumns={1}
           hideOutsideDates
           getDayProps={getDayProps}
+          value={condition ? value : null}
         />
       </Group>
     </MantineProvider>

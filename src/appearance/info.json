@@ -13,18 +13,6 @@
           "type": "font",
           "apprKey": "font",
           "defaultValue": "Open Sans,14,#000000"
-        },
-        {
-          "label": "Property 1",
-          "apprKey": "property1",
-          "type": "text",
-          "defaultValue": "property 1"
-        },
-        {
-          "label": "Property 2",
-          "apprKey": "property2",
-          "type": "number",
-          "defaultValue": 2
         }
       ]
     }

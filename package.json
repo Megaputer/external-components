@@ -12,6 +12,8 @@
     "eslint": "node node_modules/eslint/bin/eslint src --ext ts,tsx"
   },
   "dependencies": {
+    "leaflet": "1.9.4",
+    "opencage-api-client": "1.0.4",
     "@ant-design/plots": "1.2.2",
     "@emotion/react": "11.10.0",
     "@emotion/styled": "11.10.0",
@@ -27,6 +29,7 @@
     "moment": "2.29.4",
     "react": "18.2.0",
     "react-dom": "18.2.0",
+    "react-leaflet": "4.2.1",
     "react-moment": "1.1.2",
     "recharts": "2.1.14",
     "tslib": "2.4.0",
@@ -35,6 +38,7 @@
   "devDependencies": {
     "@typescript-eslint/eslint-plugin": "5.36.2",
     "@typescript-eslint/parser": "5.36.2",
+    "@types/leaflet": "1.9.8",
     "circular-dependency-plugin": "5.2.2",
     "clean-webpack-plugin": "4.0.0",
     "copy-webpack-plugin": "12.0.2",

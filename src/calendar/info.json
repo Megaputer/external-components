@@ -2,5 +2,6 @@
   "guid": "532bae89-c421-4a71-9bfb-146861b3b648",
   "name": "Calendar",
   "icon": "",
-  "description": "Example of using the `filter` handler, displaying results as a calendar and EDD processing (by clicking a date)"
+  "description": "Example of using the `filter` handler, displaying results as a calendar and EDD processing (by clicking a date)",
+  "apprSchema": []
 }

@@ -29,10 +29,14 @@ class AppearanceWidget implements IWidget {
       this.root.render(
         <Appearance
           setAppearance={this.args.setAppearance}
-          getAppearance={this.args.getAppearance}
+          getApprValue={this.args.getApprValue}
           isEditor={this.args.isEditor}
         />
       );
+  }
+
+  getApprSchema(): ApprTab[] | undefined {
+    return undefined;
   }
 
   dispose(): void { }

@@ -30,6 +30,10 @@ class EditorPublicationWidget implements IWidget {
       this.root.render(<EditorPublication isEditor={this.args.isEditor} />);
   }
 
+  getApprSchema(): ApprTab[] | undefined {
+    return undefined;
+  }
+
   dispose(): void { }
 }
 

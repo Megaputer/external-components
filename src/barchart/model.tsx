@@ -46,6 +46,10 @@ class BarChartWidget implements IWidget {
       );
   }
 
+  getApprSchema(): ApprTab[] | undefined {
+    return undefined;
+  }
+
   dispose(): void { }
 }
 

@@ -7,14 +7,14 @@ const { hideBin } = require('yargs/helpers');
 const yargs = require('yargs/yargs');
 const inquirer = require('inquirer');
 
-const settingBuild = require('./template/settings-json-template');
+const settingsBuild = require('./template/settings-json-template');
 const viewTemplate = require('./template/view-template');
 const modelTemplate = require('./template/model-template');
 const styleTemplate = require('./template/style-template');
 
 const createJson = async ({ guid, name = '', icon = '', description = '', path }) => {
   try {
-    const content = settingBuild({ guid, name, icon, description });
+    const content = settingsBuild({ guid, name, icon, description });
     await fs.writeFile(path, content);
   } catch (error) {
     console.log(error);

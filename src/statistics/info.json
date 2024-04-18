@@ -2,5 +2,6 @@
   "guid": "8cc18b94-7950-4058-9754-dfa5fe5591b4",
   "name": "Statistics",
   "icon": "",
-  "description": "Example of using the handler `statistics` to get statistics from data"
+  "description": "Example of using the handler `statistics` to get statistics from data",
+  "apprSchema": []
 }

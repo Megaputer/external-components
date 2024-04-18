@@ -15,6 +15,22 @@ interface IWidget {
 interface WidgetArgs {
   isEditor: boolean;
   setAppearance(appr: Record<string, any>): void;
-  getAppearance(): Record<string, any>;
+  getApprValue(key: string): ApprValue | undefined;
   openDrillDown(condition: TConditionNode, optional?: { navigate?: boolean }): void;
+}
+
+type ApprValue = string | number;
+
+interface ApprCtrl {
+  apprKey: string;
+  label: string;
+  defaultValue?: ApprValue;
+  type: string;
+  props?: Record<string, any>;
+}
+
+interface ApprTab {
+  label: string;
+  icon?: string;
+  items: ApprCtrl[];
 }

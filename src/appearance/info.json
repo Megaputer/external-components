@@ -2,5 +2,31 @@
   "guid": "3152b50c-a3b5-4137-a50d-6816fd0d98c9",
   "name": "Appearance",
   "icon": "",
-  "description": "Example of how a widget works by save visual settings in appearance"
+  "description": "Example of how a widget works by save visual settings in appearance",
+  "apprSchema": [
+    {
+      "label": "General",
+      "icon": "",
+      "items": [
+        {
+          "label": "Font",
+          "type": "font",
+          "apprKey": "font",
+          "defaultValue": "Open Sans,14,#000000"
+        },
+        {
+          "label": "Property 1",
+          "apprKey": "property1",
+          "type": "text",
+          "defaultValue": "property 1"
+        },
+        {
+          "label": "Property 2",
+          "apprKey": "property2",
+          "type": "number",
+          "defaultValue": 2
+        }
+      ]
+    }
+  ]
 }

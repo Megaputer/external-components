@@ -19,11 +19,15 @@ async function runWebpack() {
     const basePath = path.resolve(process.cwd(), 'build');
     console.log(`Files from the path: ${basePath}`);
     const files = fs.readdirSync(basePath, { recursive: true });
-    console.log('Added to the archive:\n', files.join('\n'));
 
+    console.log('\nThe following files have been added to the archive:');
     for (const file of files) {
-      const content = fs.readFileSync(path.resolve(basePath, file));
-      zip.file(file, content);
+      const pathFile = path.resolve(basePath, file);
+      if (fs.statSync(pathFile).isFile()) {
+        const content = fs.readFileSync(pathFile);
+        zip.file(file, content);
+        console.log(` - ${file}`);
+      }
     }
 
     zip.generateAsync({
@@ -35,7 +39,7 @@ async function runWebpack() {
       const outPath = path.resolve(basePath, `${archiveName}.zip`);
       fs.writeFile(outPath, content, undefined, (err) => err && console.log(err));
     })
-    .then(() => console.log(`Archive '${archiveName}' created`));
+    .then(() => console.log(`\nArchive '${archiveName}' created`));
   } catch (error) {
     console.log(error);
   }

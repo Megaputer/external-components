@@ -4,6 +4,7 @@ module.exports = function (options) {
   "guid": "${options.guid}",
   "name": "${options.name}",
   "icon": "${options.icon}",
-  "description": "${options.description}"
+  "description": "${options.description}",
+  "apprSchema": []
 }`);
 }

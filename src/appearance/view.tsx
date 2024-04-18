@@ -4,17 +4,12 @@ import { Clock } from './Clock';
 
 interface Props {
   setAppearance: (appr: Record<string, any>) => void;
-  getAppearance: () => Record<string, any>;
+  getApprValue(key: string): ApprValue | undefined;
   isEditor: boolean;
 }
 
-export const Appearance: React.FC<Props> = ({ setAppearance, getAppearance, isEditor }) => {
-  const [format, setFormat] = React.useState<string>('HH:mm:ss');
-
-  React.useEffect(() => {
-    const format = getAppearance().format;
-    setFormat(format);
-  }, []);
+export const Appearance: React.FC<Props> = ({ setAppearance, getApprValue, isEditor }) => {
+  const [format, setFormat] = React.useState<string>(getApprValue('format') as string || 'HH:mm:ss');
 
   const onChange = (event: React.ChangeEvent<HTMLInputElement>, flag: boolean) => {
     const format = flag ? 'hh:mm:ss A' : 'HH:mm:ss';
@@ -22,6 +17,7 @@ export const Appearance: React.FC<Props> = ({ setAppearance, getAppearance, isEd
     setAppearance({ format });
   };
 
+  const font = getApprValue('font') as string;
   return (
     <Grid
       container
@@ -36,7 +32,7 @@ export const Appearance: React.FC<Props> = ({ setAppearance, getAppearance, isEd
           <Typography>12 format</Typography>
         </Stack>
       )}
-      <Clock format={format} />
+      <Clock format={format} font={font} />
     </Grid>
   );
 }

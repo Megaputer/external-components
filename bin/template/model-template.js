@@ -32,6 +32,10 @@ class ${name} implements IWidget {
       this.root.render(<${component.name} requestor={this.requestor} />);
   }
 
+  getApprSchema(): ApprTab[] | undefined {
+    return undefined;
+  }
+
   dispose(): void { }
 }
 

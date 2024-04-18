@@ -2,5 +2,6 @@
   "guid": "cf9922b8-270f-40fb-b13c-55335133c5e5",
   "name": "EditorPublication",
   "icon": "",
-  "description": "Example of defining `editor` or `publication` mode with parameter `isEditor`"
+  "description": "Example of defining `editor` or `publication` mode with parameter `isEditor`",
+  "apprSchema": []
 }

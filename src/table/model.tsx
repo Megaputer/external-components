@@ -45,6 +45,10 @@ class TableWidget implements IWidget {
       this.root.render(<SimpleTable setCondition={this.setCondition}  requestor={this.requestor!} args={this.args} />);
   }
 
+  getApprSchema(): ApprTab[] | undefined {
+    return undefined;
+  }
+
   dispose(): void { }
 }
 

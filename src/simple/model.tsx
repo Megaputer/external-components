@@ -13,6 +13,10 @@ class SimpleWidget implements IWidget {
     createRoot(parent).render(<div className={style.simple}>This simple widget</div>);
   }
 
+  getApprSchema(): ApprTab[] | undefined {
+    return undefined;
+  }
+
   dispose(): void { }
 }
 

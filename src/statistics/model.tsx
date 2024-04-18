@@ -32,6 +32,10 @@ class StatisticsWidget implements IWidget {
       this.root.render(<Statistics requestor={this.requestor} />);
   }
 
+  getApprSchema(): ApprTab[] | undefined {
+    return undefined;
+  }
+
   dispose(): void { }
 }
 

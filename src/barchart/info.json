@@ -2,5 +2,6 @@
   "guid": "e7dc7dd6-0573-4347-8262-98c2a0e07803",
   "name": "BarChart",
   "icon": "",
-  "description": "Example of using the `disctinct` handler, displaying results as a chart and EDD processing (by clicking a bar)"
+  "description": "Example of using the `disctinct` handler, displaying results as a chart and EDD processing (by clicking a bar)",
+  "apprSchema": []
 }

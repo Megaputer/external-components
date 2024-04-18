@@ -38,6 +38,9 @@ module.exports = function(_, argv = {}) {
     resolve: {
       extensions: ['.ts', '.tsx', '.js'],
       modules: [path.resolve('./src'),'node_modules'],
+      alias: {
+        process: 'process/browser'
+      }
     },
 
     module: {

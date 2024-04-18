@@ -1,0 +1,20 @@
+{
+  "guid": "a1c9de4f-2304-42bd-8408-a743ce4b3776",
+  "name": "OpenStreetMap",
+  "icon": "",
+  "description": "",
+  "apprSchema": [
+    {
+      "label": "General",
+      "icon": "",
+      "items": [
+        {
+          "label": "OpenCage API",
+          "type": "text",
+          "apprKey": "apiKey",
+          "defaultValue": ""
+        }
+      ]
+    }
+  ]
+}

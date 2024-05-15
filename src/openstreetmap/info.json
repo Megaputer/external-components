@@ -2,7 +2,7 @@
   "guid": "a1c9de4f-2304-42bd-8408-a743ce4b3776",
   "name": "OpenStreetMap",
   "icon": "",
-  "description": "",
+  "description": "Example of displaying data on the map",
   "apprSchema": [
     {
       "label": "General",

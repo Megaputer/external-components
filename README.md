@@ -4,11 +4,9 @@ To run this locally:
 
 1. Run `git clone https://github.com/Megaputer/external-components.git`
 2. Go to directory with `cd external-components`
-3. Run `yarn dist`
-4. Copy `build/MyWidgets.js` to a `<PA6 installation directory>/data/externals/MyWidgets.js` or use parameter `--output-path` for set output location of the bundle file.
- Example: `yarn dist:watch --output-path=\"C:/Megaputer Intelligence/PolyAnalyst 6.5 Server 64-bit/data/externals\"`
-5. Edit `data/externals/wr-externals.json` inside PA6 installation directory which will contain `["DSWidget.js"]`
-
+3. Run `yarn install`
+4. Create an archive with widgets using the command `yarn archive`
+5. To add widgets to a PA6, upload the archive (`./build/external-components.zip`) via the PolyAnalyst Administrative Tool
 
 ## List of examples:
 
@@ -19,3 +17,4 @@ To run this locally:
 - BarChartWidget - Example of using the `disctinct` handler, displaying results as a chart and EDD processing (by clicking a bar)
 - StatisticsWidget - Example of using the handler `statistics` to get statistics from data
 - Calendar - Example of using the `filter` handler, displaying results as a calendar and EDD processing (by clicking a date)
+- OpenStreetMap - Example of displaying data on the map

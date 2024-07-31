@@ -18,7 +18,7 @@ export const FormCalendar: React.FC<Props> = ({ getValue, setValue }) => {
 
   return (
     <MantineProvider>
-      <Group position="center">
+      <Group position='center'>
       <DatePicker
           styles={(theme) => ({
             day: {

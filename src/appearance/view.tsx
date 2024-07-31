@@ -1,4 +1,5 @@
 import * as React from 'react';
+import type { ApprValue } from 'pa-typings';
 import { Typography, Grid, Stack, Switch } from '@mui/material';
 import { Clock } from './Clock';
 

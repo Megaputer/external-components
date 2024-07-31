@@ -12,8 +12,6 @@
     "eslint": "node node_modules/eslint/bin/eslint src --ext ts,tsx"
   },
   "dependencies": {
-    "leaflet": "1.9.4",
-    "opencage-api-client": "1.0.4",
     "@ant-design/plots": "1.2.2",
     "@emotion/react": "11.10.0",
     "@emotion/styled": "11.10.0",
@@ -26,7 +24,9 @@
     "@types/react": "18.0.17",
     "@types/react-dom": "18.0.6",
     "dayjs": "1.11.10",
+    "leaflet": "1.9.4",
     "moment": "2.29.4",
+    "opencage-api-client": "1.0.4",
     "react": "18.2.0",
     "react-dom": "18.2.0",
     "react-leaflet": "4.2.1",
@@ -36,9 +36,9 @@
     "typescript": "4.7.4"
   },
   "devDependencies": {
+    "@types/leaflet": "1.9.8",
     "@typescript-eslint/eslint-plugin": "5.36.2",
     "@typescript-eslint/parser": "5.36.2",
-    "@types/leaflet": "1.9.8",
     "circular-dependency-plugin": "5.2.2",
     "clean-webpack-plugin": "4.0.0",
     "copy-webpack-plugin": "12.0.2",
@@ -50,7 +50,7 @@
     "inquirer": "8.0.0",
     "jszip": "3.10.1",
     "mini-css-extract-plugin": "2.6.1",
-    "pa-typings": "https://github.com/Megaputer/pa-typings.git#e8f5bbcbf151965ff8a95ab33cf211fc85d135b3",
+    "pa-typings": "megaputer/pa-typings",
     "postcss-loader": "7.0.1",
     "sass": "1.54.4",
     "sass-loader": "13.0.2",

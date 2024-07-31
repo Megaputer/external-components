@@ -1,5 +1,5 @@
 import * as React from 'react';
-import type { ApiRequestor, Table } from 'pa-typings';
+import type { ApiRequestor, ApprValue } from 'pa-typings';
 import * as opencage from 'opencage-api-client';
 import { MapContainer, TileLayer, Marker, AttributionControl, useMapEvents } from 'react-leaflet';
 import {Icon} from 'leaflet';

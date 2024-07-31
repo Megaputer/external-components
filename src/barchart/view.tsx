@@ -9,7 +9,7 @@ import {
   ResponsiveContainer,
   Cell
 } from 'recharts';
-import type { TConditionNode, ApiRequestor } from 'pa-typings';
+import type { TConditionNode, ApiRequestor, WidgetArgs } from 'pa-typings';
 import { Select, type Column } from 'Select';
 
 import { variantToDate } from 'helper';

@@ -1,5 +1,5 @@
 import * as React from 'react';
-import type { TConditionNode, ApiRequestor, ColumnInfo } from 'pa-typings';
+import type { TConditionNode, ApiRequestor, ColumnInfo, WidgetArgs } from 'pa-typings';
 
 import Table from '@mui/material/Table';
 import TableBody from '@mui/material/TableBody';

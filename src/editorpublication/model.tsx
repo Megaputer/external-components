@@ -1,6 +1,6 @@
 import * as React from 'react';
 import { createRoot, Root } from 'react-dom/client';
-import type { TConditionNode, ApiRequestor } from 'pa-typings';
+import type { TConditionNode, ApiRequestor, IWidget, WidgetArgs, ApprTab } from 'pa-typings';
 
 import { EditorPublication } from './view';
 

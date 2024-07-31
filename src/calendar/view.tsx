@@ -1,5 +1,5 @@
 import * as React from 'react';
-import type { TConditionNode, ApiRequestor, Table, ColumnInfo } from 'pa-typings';
+import type { TConditionNode, ApiRequestor, Table, ColumnInfo, WidgetArgs } from 'pa-typings';
 import { Group, MantineProvider } from '@mantine/core';
 import { DatePicker, DayProps } from '@mantine/dates';
 import { dateToVariant, variantToDate } from 'helper';

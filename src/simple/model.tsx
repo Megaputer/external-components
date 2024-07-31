@@ -2,6 +2,8 @@ import * as React from 'react';
 import { createRoot } from 'react-dom/client';
 import * as style from './styles.scss';
 
+import type { IWidget, WidgetArgs, ApprTab } from 'pa-typings';
+
 class SimpleWidget implements IWidget {
   constructor(private args: WidgetArgs) {}
 

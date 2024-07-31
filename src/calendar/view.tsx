@@ -154,7 +154,7 @@ export const Calendar: React.FC<Props> = ({ requestor, args, setCondition, condi
 
   return (
     <MantineProvider>
-      <Group position="center">
+      <Group position='center'>
       <DatePicker
           styles={(theme) => ({
             day: {

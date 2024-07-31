@@ -11,10 +11,12 @@ interface Props {
 }
 
 export const FormCalendar: React.FC<Props> = ({ getValue, setValue }) => {
-  const getDate = () => {
-    const date = getValue() as number;
-    return date ? variantToDate(date) : null;
-  }
+  const [date, setDate] = React.useState<Date | undefined>(undefined);
+  const value = getValue() as string;
+
+  React.useEffect(() => {
+    setDate(value ? new Date(value) : undefined);
+  }, [value]);
 
   return (
     <MantineProvider>
@@ -34,9 +36,15 @@ export const FormCalendar: React.FC<Props> = ({ getValue, setValue }) => {
             },
           })}
           numberOfColumns={1}
+          allowDeselect
           hideOutsideDates
-          onChange={(date: Date) => setValue(dateToVariant(date) as unknown as FormValueBasic[])}
-          value={getDate()}
+          date={date}
+          onDateChange={setDate}
+          onChange={(date: Date) => {
+            setValue(date?.toLocaleString('en-US') as unknown as FormValueBasic[]);
+            setDate(date);
+          }}
+          value={value ? new Date(value) : null}
         />
       </Group>
     </MantineProvider>

@@ -7,6 +7,8 @@ import {Icon} from 'leaflet';
 import './styles.css';
 import 'leaflet/dist/leaflet.css';
 
+import MarkerIcon from 'leaflet/dist/images/marker-icon.png';
+
 interface Props {
   requestor: ApiRequestor;
   width?: number;
@@ -27,18 +29,40 @@ export const OpenStreetMap: React.FC<Props> = (props) => {
   const [position, setPosition] = React.useState<[number, number]>([39.1670396, -86.5342881]);
   const [showMarker, setShowMarker] = React.useState(false);
 
+  const updateMarker = (lat: number, lng: number) => {
+    setPosition([lat, lng]);
+    mapRef.current.setView([lat, lng]);
+    setShowMarker(true);
+  };
+
   const apiKey = getApprValue('apiKey') as string;
   const getGeocode = (query: string) => {
     opencage.geocode({ key: apiKey, q: query})
       .then((res) => {
         if (res.results.length && mapRef.current) {
           const {lat, lng} = res.results[0].geometry;
-          setPosition([lat, lng]);
-          mapRef.current.setView([lat, lng]);
-          setShowMarker(true);
+          updateMarker(lat, lng);
         }
       })
       .catch(console.log);
+  };
+
+  const showMarkerByAddress = (data: (number | string)[]) => {
+    const id = getApprValue('address')!;
+    if (id === '')
+      return;
+    const city = data[+id].toString();
+    getGeocode(city);
+  };
+
+  const showMarkerByCoordinate = (data: (number | string)[]) => {
+    const latColId = getApprValue('longitude')!;
+    const lngColId = getApprValue('latitude')!;
+    if (latColId === '' || lngColId === '')
+      return;
+    const lat = data[+latColId] as number;
+    const lng = data[+lngColId] as number;
+    updateMarker(lat, lng);
   };
 
   React.useEffect(() => {
@@ -48,14 +72,8 @@ export const OpenStreetMap: React.FC<Props> = (props) => {
 
   React.useEffect(() => {
     const fetchData = async () => {
-      let guid = wrapperGuid.current = await requestor.wrapperGuid();
-      let dsInfo = await requestor.info(guid);
-      const column = dsInfo.columns.find(c => c.type === 'String');
-      if (!column)
-        return;
-
-      guid = await requestor.distinct({ columnId: column.id, wrapperGuid: guid.wrapperGuid }).wrapperGuid();
-      dsInfo = await requestor.info(guid);
+      const guid = wrapperGuid.current = await requestor.wrapperGuid();
+      const dsInfo = await requestor.info(guid);
 
       setError(dsInfo.rowCount ? '' : 'No data to display');
       if (dsInfo.rowCount) {
@@ -64,10 +82,13 @@ export const OpenStreetMap: React.FC<Props> = (props) => {
           rowCount: dsInfo.rowCount,
           wrapperGuid: guid.wrapperGuid
         });
-        const correctData = values.table?.length == 1;
-        if (correctData) {
-          const city = values.table![0][0].toString();
-          getGeocode(city);
+
+        if (values.table?.length == 1) {
+          const [data = []] = values.table || [];
+          if (!data.length)
+            return;
+
+          'address' === getApprValue('mode') ? showMarkerByAddress(data) : showMarkerByCoordinate(data);
         } else {
           setShowMarker(false);
         }
@@ -78,7 +99,7 @@ export const OpenStreetMap: React.FC<Props> = (props) => {
   }, [requestor]);
 
   const icon = new Icon({
-    iconUrl: 'https://unpkg.com/leaflet@1.7.1/dist/images/marker-icon.png',
+    iconUrl: MarkerIcon,
     iconSize: [25, 41],
     iconAnchor: [12, 41]
   });

@@ -46,6 +46,7 @@
     "css-minimizer-webpack-plugin": "4.0.0",
     "eslint": "8.24.0",
     "external-widget-cli": "megaputer/external-widget-cli",
+    "file-loader": "6.2.0",
     "fork-ts-checker-webpack-plugin": "7.2.13",
     "html-webpack-plugin": "5.5.0",
     "mini-css-extract-plugin": "2.6.1",

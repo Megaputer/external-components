@@ -61,7 +61,7 @@ class OpenStreetMapWidget implements IWidget {
     if (!this.requestor)
       return [];
 
-    const { columns = [] } = await this.requestor?.info({ wrapperGuid })
+    const { columns = [] } = await this.requestor.info({ wrapperGuid })
     return columns.map(c => ({ label: c.title, value: c.id })) as unknown as { label: string; value: string; }[];
   }
 

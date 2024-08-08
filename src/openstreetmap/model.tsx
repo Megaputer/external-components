@@ -55,8 +55,38 @@ class OpenStreetMapWidget implements IWidget {
       );
   }
 
-  getApprSchema(): ApprTab[] | undefined {
-    return undefined;
+  private async getColumnOptions() {
+    const { wrapperGuid } = await this.requestor!.wrapperGuid();
+
+    if (!this.requestor)
+      return [];
+
+    const { columns = [] } = await this.requestor?.info({ wrapperGuid })
+    return columns.map(c => ({ label: c.title, value: c.id })) as unknown as { label: string; value: string; }[];
+  }
+
+  async updateApprSchema(schema: ApprTab[]): Promise<ApprTab[]> {
+    schema = structuredClone(schema);
+
+    const options = await this.getColumnOptions();
+    if ('coordinates' == this.args.getApprValue('mode')) {
+      const longitude = schema[0].items.find(i => i.apprKey === 'longitude');
+      if (longitude?.props?.options)
+        longitude.props.options = [...longitude.props.options, ...options];
+
+      const latitude = schema[0].items.find(i => i.apprKey === 'latitude');
+      if (latitude?.props?.options)
+        latitude.props.options = [...latitude.props.options, ...options];
+
+      schema[0].items = schema[0].items.filter(i => i.apprKey !== 'address');
+    } else {
+      const address = schema[0].items.find(i => i.apprKey === 'address');
+      if (address?.props?.options)
+        address.props.options = [...address.props.options, ...options];
+
+      schema[0].items = schema[0].items.filter(i => !['longitude', 'latitude'].includes(i.apprKey));
+    }
+    return schema;
   }
 
   dispose(): void { }

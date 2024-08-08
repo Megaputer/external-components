@@ -13,6 +13,51 @@
           "type": "text",
           "apprKey": "apiKey",
           "defaultValue": ""
+        },
+        {
+          "label": "Search by",
+          "type": "select",
+          "apprKey": "mode",
+          "defaultValue": "address",
+          "props": {
+            "options": [
+              {"label": "Address", "value": "address"},
+              {"label": "Coordinates", "value": "coordinates"}
+            ]
+          }
+        },
+        {
+          "label": "Column for address",
+          "type": "select",
+          "apprKey": "address",
+          "defaultValue": "",
+          "props": {
+            "options": [
+              { "value": "", "label": "None" }
+            ]
+          }
+        },
+        {
+          "label": "Longitude",
+          "type": "select",
+          "apprKey": "longitude",
+          "defaultValue": "",
+          "props": {
+            "options": [
+              { "value": "", "label": "None" }
+            ]
+          }
+        },
+        {
+          "label": "Latitude",
+          "type": "select",
+          "apprKey": "latitude",
+          "defaultValue": "",
+          "props": {
+            "options": [
+              { "value": "", "label": "None" }
+            ]
+          }
         }
       ]
     }

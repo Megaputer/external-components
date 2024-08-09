@@ -12,6 +12,7 @@
           "label": "OpenCage API",
           "type": "text",
           "apprKey": "apiKey",
+          "description": "You will need to register at https://opencagedata.com/users/sign_up to get an API key",
           "defaultValue": ""
         },
         {

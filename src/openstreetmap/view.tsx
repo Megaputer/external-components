@@ -56,8 +56,8 @@ export const OpenStreetMap: React.FC<Props> = (props) => {
   };
 
   const showMarkerByCoordinate = (data: (number | string)[]) => {
-    const latColId = getApprValue('longitude')!;
-    const lngColId = getApprValue('latitude')!;
+    const latColId = getApprValue('latitude')!;
+    const lngColId = getApprValue('longitude')!;
     if (latColId === '' || lngColId === '')
       return;
     const lat = data[+latColId] as number;

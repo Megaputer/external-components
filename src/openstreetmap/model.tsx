@@ -1,6 +1,6 @@
 import * as React from 'react';
 import { createRoot, Root } from 'react-dom/client';
-import type { TConditionNode, ApiRequestor, IWidget, WidgetArgs, ApprTab } from 'pa-typings';
+import type { TConditionNode, ApiRequestor, IWidget, WidgetArgs, ApprTab, ApprCtrl, Value } from 'pa-typings';
 
 import { OpenStreetMap } from './view';
 
@@ -62,30 +62,34 @@ class OpenStreetMapWidget implements IWidget {
       return [];
 
     const { columns = [] } = await this.requestor.info({ wrapperGuid })
-    return columns.map(c => ({ label: c.title, value: c.id })) as unknown as { label: string; value: string; }[];
+    return columns.map(c => ({ label: c.title, value: c.id })) as unknown as Value[];
+  }
+
+  private updateAddressOptions(item: ApprCtrl, options: Value[]) {
+    if (item.apprKey === 'address' && item.props?.options)
+      item.props.options = [...item.props.options, ...options];
+    if (['longitude', 'latitude'].includes(item.apprKey)) {
+      item.hidden = true;
+    }
+  }
+
+  private updateCoordinateOptions(item: ApprCtrl, options: Value[]) {
+    if (item.props?.options && (item.apprKey === 'longitude' || item.apprKey === 'latitude'))
+      item.props.options = [...item.props.options, ...options];
+    if (item.apprKey === 'address') {
+      item.hidden = true;
+    }
   }
 
   async updateApprSchema(schema: ApprTab[]): Promise<ApprTab[]> {
     schema = structuredClone(schema);
 
     const options = await this.getColumnOptions();
-    if ('coordinates' == this.args.getApprValue('mode')) {
-      const longitude = schema[0].items.find(i => i.apprKey === 'longitude');
-      if (longitude?.props?.options)
-        longitude.props.options = [...longitude.props.options, ...options];
-
-      const latitude = schema[0].items.find(i => i.apprKey === 'latitude');
-      if (latitude?.props?.options)
-        latitude.props.options = [...latitude.props.options, ...options];
-
-      schema[0].items = schema[0].items.filter(i => i.apprKey !== 'address');
-    } else {
-      const address = schema[0].items.find(i => i.apprKey === 'address');
-      if (address?.props?.options)
-        address.props.options = [...address.props.options, ...options];
-
-      schema[0].items = schema[0].items.filter(i => !['longitude', 'latitude'].includes(i.apprKey));
-    }
+      for (const item of schema[0].items) {
+        'coordinates' == this.args.getApprValue('mode')
+          ? this.updateCoordinateOptions(item, options)
+          : this.updateAddressOptions(item, options);
+      }
     return schema;
   }
 

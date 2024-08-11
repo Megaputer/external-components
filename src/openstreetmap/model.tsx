@@ -84,9 +84,10 @@ class OpenStreetMapWidget implements IWidget {
   async updateApprSchema(schema: ApprTab[]): Promise<ApprTab[]> {
     schema = structuredClone(schema);
 
+    const mode = this.args.getApprValue('mode');
     const options = await this.getColumnOptions();
       for (const item of schema[0].items) {
-        'coordinates' == this.args.getApprValue('mode')
+        mode === 'coordinates'
           ? this.updateCoordinateOptions(item, options)
           : this.updateAddressOptions(item, options);
       }

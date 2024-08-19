@@ -95,7 +95,10 @@ module.exports = function(_, argv = {}) {
           test: /\.(png|jpe?g|gif)$/i,
           use: [
             {
-              loader: 'file-loader',
+              loader: 'url-loader',
+              options: {
+                limit: 8192,
+              },
             },
           ],
         },

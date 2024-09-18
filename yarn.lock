@@ -4312,6 +4312,7 @@ __metadata:
     fork-ts-checker-webpack-plugin: "npm:7.2.13"
     globals: "npm:15.9.0"
     html-webpack-plugin: "npm:5.5.0"
+    husky: "npm:9.1.6"
     leaflet: "npm:1.9.4"
     mini-css-extract-plugin: "npm:2.6.1"
     moment: "npm:2.29.4"
@@ -5151,6 +5152,15 @@ external-widget-cli@megaputer/external-widget-cli:
   version: 2.1.0
   resolution: "human-signals@npm:2.1.0"
   checksum: 10c0/695edb3edfcfe9c8b52a76926cd31b36978782062c0ed9b1192b36bebc75c4c87c82e178dfcb0ed0fc27ca59d434198aac0bd0be18f5781ded775604db22304a
+  languageName: node
+  linkType: hard
+
+"husky@npm:9.1.6":
+  version: 9.1.6
+  resolution: "husky@npm:9.1.6"
+  bin:
+    husky: bin.js
+  checksum: 10c0/705673db4a247c1febd9c5df5f6a3519106cf0335845027bb50a15fba9b1f542cb2610932ede96fd08008f6d9f49db0f15560509861808b0031cdc0e7c798bac
   languageName: node
   linkType: hard
 

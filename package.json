@@ -65,6 +65,7 @@
     "fork-ts-checker-webpack-plugin": "7.2.13",
     "globals": "15.9.0",
     "html-webpack-plugin": "5.5.0",
+    "husky": "9.1.6",
     "mini-css-extract-plugin": "2.6.1",
     "pa-typings": "megaputer/pa-typings#main",
     "postcss-loader": "7.0.1",

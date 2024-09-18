@@ -1,4 +1,3 @@
-import * as React from 'react';
 import { createRoot, Root } from 'react-dom/client';
 import type { TConditionNode, ApiRequestor, IWidget, WidgetArgs, ApprTab, ApprCtrl, Value } from 'pa-typings';
 
@@ -34,7 +33,7 @@ class OpenStreetMapWidget implements IWidget {
           this.width = e.contentRect.width;
           this.updateContainer();
         }
-      })
+      });
     });
     this.observer.observe(parent.parentElement!);
 
@@ -43,16 +42,14 @@ class OpenStreetMapWidget implements IWidget {
 
   private updateContainer() {
     if (this.root && this.requestor)
-      this.root.render(
-        <OpenStreetMap
-          requestor={this.requestor}
-          height={this.height}
-          width={this.width}
-          isEditor={this.args.isEditor}
-          setAppearance={this.args.setAppearance}
-          getApprValue={this.args.getApprValue}
-        />
-      );
+      this.root.render(<OpenStreetMap
+        requestor={this.requestor}
+        height={this.height}
+        width={this.width}
+        isEditor={this.args.isEditor}
+        setAppearance={this.args.setAppearance}
+        getApprValue={this.args.getApprValue}
+      />);
   }
 
   private async getColumnOptions() {
@@ -61,7 +58,7 @@ class OpenStreetMapWidget implements IWidget {
     if (!this.requestor)
       return [];
 
-    const { columns = [] } = await this.requestor.info({ wrapperGuid })
+    const { columns = [] } = await this.requestor.info({ wrapperGuid });
     return columns.map(c => ({ label: c.title, value: c.id })) as unknown as Value[];
   }
 
@@ -86,11 +83,11 @@ class OpenStreetMapWidget implements IWidget {
 
     const mode = this.args.getApprValue('mode');
     const options = await this.getColumnOptions();
-      for (const item of schema[0].items) {
-        mode === 'coordinates'
-          ? this.updateCoordinateOptions(item, options)
-          : this.updateAddressOptions(item, options);
-      }
+    for (const item of schema[0].items) {
+      mode === 'coordinates'
+        ? this.updateCoordinateOptions(item, options)
+        : this.updateAddressOptions(item, options);
+    }
     return schema;
   }
 

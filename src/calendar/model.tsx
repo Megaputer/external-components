@@ -1,4 +1,3 @@
-import * as React from 'react';
 import { createRoot, Root } from 'react-dom/client';
 import type { TConditionNode, ApiRequestor, IWidget, WidgetArgs, ApprTab } from 'pa-typings';
 
@@ -28,7 +27,7 @@ class CalendarWidget implements IWidget {
   setCondition = (cond: TConditionNode) => {
     this.condition = cond;
     this.updateContainer();
-  }
+  };
 
   selectByDDExpression(cond?: TConditionNode) {
     this.condition = cond;
@@ -37,13 +36,12 @@ class CalendarWidget implements IWidget {
 
   private updateContainer() {
     if (this.root && this.requestor)
-      this.root.render(
-        <Calendar
-          setCondition={this.setCondition}
-          condition={this.condition}
-          requestor={this.requestor}
-          args={this.args}
-        />);
+      this.root.render(<Calendar
+        setCondition={this.setCondition}
+        condition={this.condition}
+        requestor={this.requestor}
+        args={this.args}
+      />);
   }
 
   getApprSchema(): ApprTab[] | undefined {

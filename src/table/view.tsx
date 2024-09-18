@@ -49,7 +49,7 @@ export const SimpleTable: React.FC<Props> = ({ requestor, args, setCondition }) 
         offset,
         rowCount
       });
-      let rows = values.table;
+      const rows = values.table;
       const dateTimeIds = [];
       for (const col of columns) {
         if (col.type === 'DateTime') {
@@ -74,7 +74,7 @@ export const SimpleTable: React.FC<Props> = ({ requestor, args, setCondition }) 
     setPage(0);
   };
 
-  const onDrillDown = async (selectedRow: number, navigate?: boolean ) => {
+  const onDrillDown = async (selectedRow: number, navigate?: boolean) => {
     const offset = page * rowsPerPage;
     const data = await requestor.values({
       wrapperGuid: wrapperGuid.wrapperGuid,
@@ -92,7 +92,7 @@ export const SimpleTable: React.FC<Props> = ({ requestor, args, setCondition }) 
     }));
     setCondition(condition);
     args?.openDrillDown(condition, { navigate });
-  }
+  };
 
   return (
     <Paper square>
@@ -106,23 +106,23 @@ export const SimpleTable: React.FC<Props> = ({ requestor, args, setCondition }) 
           <TableBody>
             {rows
               .map((row: string[], i: number) => (
-              <TableRow
-                key={i}
-                hover
-                role='checkbox'
-                tabIndex={-1}
-                onClick={() => onDrillDown(i)}
-                onDoubleClick={() => onDrillDown(i, true)}
-              >
-                {row.map((r: string, i: number) => <TableCell key={i} align="right">{r}</TableCell>)}
-              </TableRow>
-            ))}
+                <TableRow
+                  key={i}
+                  hover
+                  role='checkbox'
+                  tabIndex={-1}
+                  onClick={() => onDrillDown(i)}
+                  onDoubleClick={() => onDrillDown(i, true)}
+                >
+                  {row.map((r: string, i: number) => <TableCell key={i} align='right'>{r}</TableCell>)}
+                </TableRow>
+              ))}
           </TableBody>
         </Table>
       </TableContainer>
       <TablePagination
         rowsPerPageOptions={[10, 25, 100, 500]}
-        component="div"
+        component='div'
         count={rowsCount.current}
         rowsPerPage={rowsPerPage}
         page={page}
@@ -131,4 +131,4 @@ export const SimpleTable: React.FC<Props> = ({ requestor, args, setCondition }) 
       />
     </Paper>
   );
-}
+};

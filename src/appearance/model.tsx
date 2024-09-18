@@ -1,4 +1,3 @@
-import * as React from 'react';
 import { createRoot, Root } from 'react-dom/client';
 import type { ApiRequestor, IWidget, WidgetArgs, ApprTab } from 'pa-typings';
 
@@ -26,13 +25,11 @@ class AppearanceWidget implements IWidget {
 
   private updateContainer() {
     if (this.root && this.requestor)
-      this.root.render(
-        <Appearance
-          setAppearance={this.args.setAppearance}
-          getApprValue={this.args.getApprValue}
-          isEditor={this.args.isEditor}
-        />
-      );
+      this.root.render(<Appearance
+        setAppearance={this.args.setAppearance}
+        getApprValue={this.args.getApprValue}
+        isEditor={this.args.isEditor}
+      />);
   }
 
   getApprSchema(): ApprTab[] | undefined {

@@ -14,7 +14,7 @@
     "noImplicitThis": true,
     "useUnknownInCatchVariables": false,
     "baseUrl": "./src",
-    "jsx": "react",
+    "jsx": "react-jsx",
     "typeRoots": ["./node_modules/@types", "./src/@types", "./node_modules/pa-typings"]
   },
   "include": ["src"]

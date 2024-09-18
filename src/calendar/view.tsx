@@ -33,7 +33,7 @@ export const Calendar: React.FC<Props> = ({ requestor, args, setCondition, condi
       const guid = wrapperGuidRef.current = await requestor.wrapperGuid();
       const dsInfo = await requestor.info(guid);
 
-      if(!dsInfo.rowCount)
+      if (!dsInfo.rowCount)
         return;
 
       const columns = dsInfo.columns.filter(c => c.type === 'DateTime');
@@ -50,7 +50,7 @@ export const Calendar: React.FC<Props> = ({ requestor, args, setCondition, condi
       const startDate = Array.from(getData(values), ([v, _]) => v)[0];
       const date = variantToDate(startDate);
       setDate(date);
-    }
+    };
     fetchData();
   }, [requestor]);
 
@@ -75,7 +75,7 @@ export const Calendar: React.FC<Props> = ({ requestor, args, setCondition, condi
   };
 
   React.useEffect(() => {
-    if(!wrapperGuidRef.current.wrapperGuid) {
+    if (!wrapperGuidRef.current.wrapperGuid) {
       return;
     }
 
@@ -103,10 +103,10 @@ export const Calendar: React.FC<Props> = ({ requestor, args, setCondition, condi
 
       const values = dsInfo.rowCount > 0
         ? await requestor.values({
-            offset: 0,
-            columnIndexes: [column.id],
-            rowCount: dsInfo.rowCount,
-            wrapperGuid: filterOnLastToFirst.wrapperGuid
+          offset: 0,
+          columnIndexes: [column.id],
+          rowCount: dsInfo.rowCount,
+          wrapperGuid: filterOnLastToFirst.wrapperGuid
         })
         : { rowIDs: [] };
 
@@ -132,7 +132,7 @@ export const Calendar: React.FC<Props> = ({ requestor, args, setCondition, condi
     setValue(date);
     setCondition(condition);
     args?.openDrillDown(condition);
-  }
+  };
 
   const getDayProps = (date: Date): Partial<DayProps> => {
     const data = dateToVariant(date);
@@ -147,15 +147,15 @@ export const Calendar: React.FC<Props> = ({ requestor, args, setCondition, condi
         ...theme.fn.hover({ backgroundColor: theme.colors.blue[4] }),
       }),
     };
-  }
+  };
 
   if (isNaN(date.getTime()))
     return <div>The value for the calendar is incorrect.</div>;
 
   return (
     <MantineProvider>
-      <Group position="center">
-      <DatePicker
+      <Group position='center'>
+        <DatePicker
           styles={(theme) => ({
             day: {
               '&[data-selected]': {
@@ -180,4 +180,4 @@ export const Calendar: React.FC<Props> = ({ requestor, args, setCondition, condi
       </Group>
     </MantineProvider>
   );
-}
+};

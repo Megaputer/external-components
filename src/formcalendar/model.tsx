@@ -1,4 +1,3 @@
-import * as React from 'react';
 import { createRoot, Root } from 'react-dom/client';
 import type { TConditionNode, ApiRequestor, IWidget, FormValue, WidgetArgs, FormValueBasic, ApprTab } from 'pa-typings';
 
@@ -28,17 +27,17 @@ class FormCalendarWidget implements IWidget {
 
   getValue = () => {
     return this.formValue ?? '';
-  }
+  };
 
   setValue = (val: FormValueBasic[]) => {
     this.formValue = val;
     this.updateContainer();
-  }
+  };
 
   reset = () => {
     this.formValue = '';
     this.updateContainer();
-  }
+  };
 
   getFormHandler() {
     return {
@@ -50,12 +49,10 @@ class FormCalendarWidget implements IWidget {
 
   private updateContainer() {
     if (this.root && this.requestor)
-      this.root.render(
-      <FormCalendar
+      this.root.render(<FormCalendar
         getValue={this.getValue}
         setValue={this.setValue}
-      />
-    );
+      />);
   }
 
   getApprSchema(): ApprTab[] | undefined {

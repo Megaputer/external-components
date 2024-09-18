@@ -1,4 +1,3 @@
-import * as React from 'react';
 import { createRoot, Root } from 'react-dom/client';
 import type { TConditionNode, ApiRequestor, IWidget, WidgetArgs, ApprTab } from 'pa-typings';
 
@@ -33,7 +32,7 @@ class BarChartWidget implements IWidget {
 
   setCondition = (cond: TConditionNode) => {
     this.condition = cond;
-  }
+  };
 
   selectByDDExpression(cond?: TConditionNode) {
     this.condition = cond;
@@ -41,9 +40,11 @@ class BarChartWidget implements IWidget {
 
   private updateContainer() {
     if (this.root && this.requestor)
-      this.root.render(
-        <BarChartView setCondition={this.setCondition} requestor={this.requestor} args={this.args} />
-      );
+      this.root.render(<BarChartView
+        setCondition={this.setCondition}
+        requestor={this.requestor}
+        args={this.args}
+      />);
   }
 
   getApprSchema(): ApprTab[] | undefined {

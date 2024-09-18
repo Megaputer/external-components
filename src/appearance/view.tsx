@@ -22,18 +22,18 @@ export const Appearance: React.FC<Props> = ({ setAppearance, getApprValue, isEdi
   return (
     <Grid
       container
-      direction="column"
-      justifyContent="center"
-      alignItems="center"
+      direction='column'
+      justifyContent='center'
+      alignItems='center'
     >
       {isEditor && (
-        <Stack direction="row" spacing={1} alignItems="center">
+        <Stack direction='row' spacing={1} alignItems='center'>
           <Typography>24 format</Typography>
-            <Switch checked={format == 'hh:mm:ss A'} onChange={onChange} />
+          <Switch checked={format == 'hh:mm:ss A'} onChange={onChange} />
           <Typography>12 format</Typography>
         </Stack>
       )}
       <Clock format={format} font={font} />
     </Grid>
   );
-}
+};

@@ -2,7 +2,7 @@ import * as React from 'react';
 import Moment from 'react-moment';
 
 interface Props {
-  format?: string,
+  format?: string;
   font?: string;
 }
 
@@ -31,4 +31,4 @@ export const Clock: React.FC<Props> = (props) => {
   return (
     <Moment style={style} format={format}>{currentTime}</Moment>
   );
-}
+};

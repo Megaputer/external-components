@@ -2,7 +2,7 @@ import * as React from 'react';
 import type { ApiRequestor, ApprValue } from 'pa-typings';
 import * as opencage from 'opencage-api-client';
 import { MapContainer, TileLayer, Marker, AttributionControl, useMapEvents } from 'react-leaflet';
-import {Icon} from 'leaflet';
+import { Icon } from 'leaflet';
 
 import './styles.css';
 import 'leaflet/dist/leaflet.css';
@@ -37,10 +37,10 @@ export const OpenStreetMap: React.FC<Props> = (props) => {
 
   const apiKey = getApprValue('apiKey') as string;
   const getGeocode = (query: string) => {
-    opencage.geocode({ key: apiKey, q: query})
+    opencage.geocode({ key: apiKey, q: query })
       .then((res) => {
         if (res.results.length && mapRef.current) {
-          const {lat, lng} = res.results[0].geometry;
+          const { lat, lng } = res.results[0].geometry;
           updateMarker(lat, lng);
         }
       })
@@ -95,7 +95,6 @@ export const OpenStreetMap: React.FC<Props> = (props) => {
       }
     };
     fetchData();
-
   }, [requestor]);
 
   const icon = new Icon({
@@ -109,7 +108,10 @@ export const OpenStreetMap: React.FC<Props> = (props) => {
 
   return (
     <div style={{ width: `${width}px`, height: `${height}px` }} className='main'>
-      <MapContainer ref={mapRef} center={position} zoom={zoom.current}
+      <MapContainer
+        ref={mapRef}
+        center={position}
+        zoom={zoom.current}
         style={{ width: '100%', height: '100%' }}
         attributionControl={false}
       >
@@ -120,12 +122,12 @@ export const OpenStreetMap: React.FC<Props> = (props) => {
       </MapContainer>
     </div>
   );
-}
+};
 
 export const SaveZoom: React.FC<{ setZoom: (appr: Record<string, any>) => void }> = (props) => {
   const mapEvents = useMapEvents({
-      zoomend: () => props.setZoom({ zoom: mapEvents.getZoom() })
+    zoomend: () => props.setZoom({ zoom: mapEvents.getZoom() })
   });
 
   return null;
-}
+};

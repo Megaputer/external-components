@@ -2,7 +2,7 @@ import * as React from 'react';
 import { type ApiRequestor } from 'pa-typings';
 import { Gauge } from '@ant-design/plots';
 import { Select, type Column } from 'Select';
-import * as scss from './styles.scss'
+import * as scss from './styles.scss';
 
 interface Props {
   requestor: ApiRequestor;
@@ -19,7 +19,7 @@ export const Statistics: React.FC<Props> = ({ requestor }) => {
   React.useEffect(() => {
     const fetchData = async () => {
       const guid = await requestor.wrapperGuid();
-      let dsInfo = await requestor.info(guid);
+      const dsInfo = await requestor.info(guid);
 
       const columns = dsInfo.columns
         .filter(c => c.type != 'String')
@@ -125,10 +125,10 @@ export const Statistics: React.FC<Props> = ({ requestor }) => {
         columns={columns}
       />
       { ref.current && (
-          <div style={{ width: '100%', height: `calc(100% - ${ref.current.clientHeight}px)` }}>
-            <Gauge {...config} />
-          </div>
-        )}
+        <div style={{ width: '100%', height: `calc(100% - ${ref.current.clientHeight}px)` }}>
+          <Gauge {...config} />
+        </div>
+      )}
     </div>
   );
-}
+};

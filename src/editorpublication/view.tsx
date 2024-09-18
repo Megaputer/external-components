@@ -5,5 +5,8 @@ interface Props {
 }
 
 export const EditorPublication: React.FC<Props> = ({ isEditor = false }) => (
-  <div>Report mode: {isEditor ? 'Editor' : 'Publication'}</div>
+  <div>
+    Report mode:
+    {isEditor ? 'Editor' : 'Publication'}
+  </div>
 );

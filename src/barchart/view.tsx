@@ -22,10 +22,10 @@ interface Props {
 }
 
 type DataType = {
-  name: string,
-  total: number,
-  value: string | number,
-  color: string
+  name: string;
+  total: number;
+  value: string | number;
+  color: string;
 };
 
 export const BarChartView: React.FC<Props> = ({ requestor, args, setCondition }) => {
@@ -39,7 +39,7 @@ export const BarChartView: React.FC<Props> = ({ requestor, args, setCondition })
   React.useEffect(() => {
     const fetchData = async () => {
       const guid = wrapperGuid.current = await requestor.wrapperGuid();
-      let dsInfo = await requestor.info(guid);
+      const dsInfo = await requestor.info(guid);
 
       const columns = dsInfo.columns
         .filter(c => c.type != 'Text')
@@ -103,7 +103,7 @@ export const BarChartView: React.FC<Props> = ({ requestor, args, setCondition })
       setCondition(condition);
       args?.openDrillDown(condition, { navigate });
     }
-  }
+  };
 
   return (
     <>
@@ -116,40 +116,40 @@ export const BarChartView: React.FC<Props> = ({ requestor, args, setCondition })
       { ref.current && (
         <div style={{ width: '100%', height: `calc(100% - ${ref.current.clientHeight}px)` }}>
           <ResponsiveContainer debounce={100}>
-              <BarChart
-                data={data}
-                margin={{
-                  top: 5,
-                  right: 30,
-                  left: 20,
-                  bottom: 5
-                }}
+            <BarChart
+              data={data}
+              margin={{
+                top: 5,
+                right: 30,
+                left: 20,
+                bottom: 5
+              }}
+            >
+              <CartesianGrid strokeDasharray='3 3' />
+              <XAxis dataKey='name' />
+              <YAxis />
+              <Tooltip />
+              <Bar
+                dataKey='total'
+                fill={'#00a0fc'}
+                label='Total'
+                onClick={(data) => onDrillDown(data)}
+                onDoubleClick={(data) => onDrillDown(data, true)}
               >
-                <CartesianGrid strokeDasharray='3 3' />
-                <XAxis dataKey='name' />
-                <YAxis />
-                <Tooltip />
-                <Bar
-                  dataKey="total"
-                  fill={'#00a0fc'}
-                  label='Total'
-                  onClick={(data) => onDrillDown(data)}
-                  onDoubleClick={(data) => onDrillDown(data, true)}
-                >
-                  {data.map((d: DataType) => <Cell key={`cell-${d.name}`} fill={d.color} />)}
-                </Bar>
-              </BarChart>
-            </ResponsiveContainer>
+                {data.map((d: DataType) => <Cell key={`cell-${d.name}`} fill={d.color} />)}
+              </Bar>
+            </BarChart>
+          </ResponsiveContainer>
         </div>
       )}
     </>
   );
-}
+};
 
 function getRandomColor() {
   const letters = '0123456789ABCDEF';
   let color = '#';
-  for (var i = 0; i < 6; i++) {
+  for (let i = 0; i < 6; i++) {
     color += letters[Math.floor(Math.random() * 16)];
   }
   return color;

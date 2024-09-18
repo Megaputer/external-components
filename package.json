@@ -9,8 +9,14 @@
     "dist:watch": "yarn dist --watch --mode=development",
     "create:widget": "./node_modules/.bin/external-widget create",
     "archive": "./node_modules/.bin/external-widget archive",
-    "eslint": "node node_modules/eslint/bin/eslint src --ext ts,tsx"
+    "eslint": "yarn run --binaries-only eslint src --quiet"
   },
+  "browserslist": [
+    "Chrome >= 73",
+    "Firefox >= 69",
+    "Edge >= 79",
+    "Safari >= 14"
+  ],
   "dependencies": {
     "@ant-design/plots": "1.2.2",
     "@emotion/react": "11.10.0",
@@ -36,17 +42,27 @@
     "typescript": "4.7.4"
   },
   "devDependencies": {
+    "@eslint/js": "9.10.0",
+    "@stylistic/eslint-plugin": "2.8.0",
     "@types/leaflet": "1.9.8",
-    "@typescript-eslint/eslint-plugin": "5.36.2",
-    "@typescript-eslint/parser": "5.36.2",
+    "@typescript-eslint/eslint-plugin": "8.6.0",
+    "@typescript-eslint/parser": "8.6.0",
+    "@typescript-eslint/utils": "8.6.0",
     "circular-dependency-plugin": "5.2.2",
     "clean-webpack-plugin": "4.0.0",
     "copy-webpack-plugin": "12.0.2",
     "css-loader": "6.7.1",
     "css-minimizer-webpack-plugin": "4.0.0",
-    "eslint": "8.24.0",
+    "eslint": "9.10.0",
+    "eslint-plugin-compat": "6.0.1",
+    "eslint-plugin-import-x": "4.2.1",
+    "eslint-plugin-jsdoc": "50.2.3",
+    "eslint-plugin-promise": "7.1.0",
+    "eslint-plugin-react": "7.36.1",
+    "eslint-plugin-react-hooks": "5.1.0-rc.0",
     "external-widget-cli": "megaputer/external-widget-cli",
     "fork-ts-checker-webpack-plugin": "7.2.13",
+    "globals": "15.9.0",
     "html-webpack-plugin": "5.5.0",
     "mini-css-extract-plugin": "2.6.1",
     "pa-typings": "megaputer/pa-typings#main",
@@ -56,6 +72,7 @@
     "style-loader": "3.3.1",
     "terser-webpack-plugin": "5.3.10",
     "ts-loader": "9.3.1",
+    "typescript-eslint": "8.6.0",
     "url-loader": "4.1.1",
     "webpack": "5.74.0",
     "webpack-cli": "4.10.0",
@@ -63,5 +80,6 @@
   },
   "engines": {
     "node": ">=18.17.1"
-  }
+  },
+  "packageManager": "yarn@4.5.0"
 }

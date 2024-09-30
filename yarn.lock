@@ -4308,7 +4308,7 @@ __metadata:
     eslint-plugin-promise: "npm:7.1.0"
     eslint-plugin-react: "npm:7.36.1"
     eslint-plugin-react-hooks: "npm:5.1.0-rc.0"
-    external-widget-cli: megaputer/external-widget-cli
+    external-widget-cli: "https://github.com/megaputer/external-widget-cli.git#commit=f51aeba2ed86f090ecf32b53238c81a8bb42e1d0"
     fork-ts-checker-webpack-plugin: "npm:7.2.13"
     globals: "npm:15.9.0"
     html-webpack-plugin: "npm:5.5.0"
@@ -4317,7 +4317,7 @@ __metadata:
     mini-css-extract-plugin: "npm:2.6.1"
     moment: "npm:2.29.4"
     opencage-api-client: "npm:1.0.4"
-    pa-typings: "megaputer/pa-typings#main"
+    pa-typings: "https://github.com/megaputer/pa-typings.git#commit=4fee2a541dfb8142424bdbfc822b2f5ad28ceca7"
     postcss-loader: "npm:7.0.1"
     react: "npm:18.2.0"
     react-dom: "npm:18.2.0"
@@ -4350,9 +4350,9 @@ __metadata:
   languageName: node
   linkType: hard
 
-external-widget-cli@megaputer/external-widget-cli:
-  version: 1.1.0
-  resolution: "external-widget-cli@https://github.com/megaputer/external-widget-cli.git#commit=e4d90d14552f8ce8499514dc44fb84851d9a8117"
+"external-widget-cli@https://github.com/megaputer/external-widget-cli.git#commit=f51aeba2ed86f090ecf32b53238c81a8bb42e1d0":
+  version: 1.2.1
+  resolution: "external-widget-cli@https://github.com/megaputer/external-widget-cli.git#commit=f51aeba2ed86f090ecf32b53238c81a8bb42e1d0"
   dependencies:
     inquirer: "npm:8.0.0"
     jszip: "npm:3.10.1"
@@ -4361,7 +4361,7 @@ external-widget-cli@megaputer/external-widget-cli:
     yargs: "npm:17.7.2"
   bin:
     external-widget: ./bin/index.js
-  checksum: 10c0/19b69fb0dcafeb3036df3e0d01eaffac37a0369338cddc4db77fc2e50f9b03418150136f4920aa435ba5884cf9ef254b70ec765438fefb1bd0480bf87920e552
+  checksum: 10c0/856fdcc9641967970abd12f4fa2173708f98fd72d26d48f66f8417744a435297b522f095b861a4aa4eedc3973997b22cce8eb9aac514d182f49e012c81672fdc
   languageName: node
   linkType: hard
 
@@ -6722,10 +6722,10 @@ external-widget-cli@megaputer/external-widget-cli:
   languageName: node
   linkType: hard
 
-"pa-typings@megaputer/pa-typings#main":
-  version: 1.1.1
-  resolution: "pa-typings@https://github.com/megaputer/pa-typings.git#commit=3b0b2ca23e727ad69a2d82d7f972373479c61086"
-  checksum: 10c0/cc6d6518bbe7f76f71a1a43512dc053454e032eaa79b9016d30a78e8268114c8dfba8fc4feb47248831a7eba18723e4812109eaf5a2f989e0b54369277888047
+"pa-typings@https://github.com/megaputer/pa-typings.git#commit=4fee2a541dfb8142424bdbfc822b2f5ad28ceca7":
+  version: 1.1.2
+  resolution: "pa-typings@https://github.com/megaputer/pa-typings.git#commit=4fee2a541dfb8142424bdbfc822b2f5ad28ceca7"
+  checksum: 10c0/c2ec125bb475b44df1f2a46de1e7b473b3f8335d49066ba79ec2b7b2bb3cdbeb06e3753a5be0e331095294d95b9068b23ec74c102f10c28fa61d6857aa2fa3e2
   languageName: node
   linkType: hard
 

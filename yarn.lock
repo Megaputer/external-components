@@ -4308,7 +4308,7 @@ __metadata:
     eslint-plugin-promise: "npm:7.1.0"
     eslint-plugin-react: "npm:7.36.1"
     eslint-plugin-react-hooks: "npm:5.1.0-rc.0"
-    external-widget-cli: "https://github.com/megaputer/external-widget-cli.git#commit=f51aeba2ed86f090ecf32b53238c81a8bb42e1d0"
+    external-widget-cli: megaputer/external-widget-cli
     fork-ts-checker-webpack-plugin: "npm:7.2.13"
     globals: "npm:15.9.0"
     html-webpack-plugin: "npm:5.5.0"
@@ -4350,9 +4350,9 @@ __metadata:
   languageName: node
   linkType: hard
 
-"external-widget-cli@https://github.com/megaputer/external-widget-cli.git#commit=f51aeba2ed86f090ecf32b53238c81a8bb42e1d0":
-  version: 1.2.1
-  resolution: "external-widget-cli@https://github.com/megaputer/external-widget-cli.git#commit=f51aeba2ed86f090ecf32b53238c81a8bb42e1d0"
+external-widget-cli@megaputer/external-widget-cli:
+  version: 1.2.2
+  resolution: "external-widget-cli@https://github.com/megaputer/external-widget-cli.git#commit=b8f21d47b63256d3ab224d705a0472135a7de34e"
   dependencies:
     inquirer: "npm:8.0.0"
     jszip: "npm:3.10.1"
@@ -4361,7 +4361,7 @@ __metadata:
     yargs: "npm:17.7.2"
   bin:
     external-widget: ./bin/index.js
-  checksum: 10c0/856fdcc9641967970abd12f4fa2173708f98fd72d26d48f66f8417744a435297b522f095b861a4aa4eedc3973997b22cce8eb9aac514d182f49e012c81672fdc
+  checksum: 10c0/40146c1c915e642a9266c1f5188920a7585cb38cd98c74e99f111aa8b2038fea1ab5a1804b43427b9ae5da1396a62877fa1fd778775d5ed6363602115e10ed4f
   languageName: node
   linkType: hard
 

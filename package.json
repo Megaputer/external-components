@@ -61,7 +61,7 @@
     "eslint-plugin-promise": "7.1.0",
     "eslint-plugin-react": "7.36.1",
     "eslint-plugin-react-hooks": "5.1.0-rc.0",
-    "external-widget-cli": "https://github.com/megaputer/external-widget-cli.git#commit=f51aeba2ed86f090ecf32b53238c81a8bb42e1d0",
+    "external-widget-cli": "megaputer/external-widget-cli",
     "fork-ts-checker-webpack-plugin": "7.2.13",
     "globals": "15.9.0",
     "html-webpack-plugin": "5.5.0",

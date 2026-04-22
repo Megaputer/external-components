@@ -73,12 +73,12 @@ export const BarChartView: React.FC<Props> = ({ requestor, args, setCondition })
       }
 
       setData(values.rowIDs.map((idx) => {
-        let tableValue = values.table?.[+idx]?.[0] || 'missing';
+        let tableValue = values.table?.[+idx]?.[0] ?? 'missing';
         let value = tableValue;
         if (columns[colId].type == 'DateTime')
           tableValue = variantToDate(+tableValue).toLocaleDateString('ru-RU');
         if (columns[colId].type == 'String')
-          value = values.textIDs![0]?.[idx];
+          value = values.textIDs?.[0]?.[idx] ?? value;
         const total = Number(values.table?.[+idx][1]);
         return { name: tableValue.toString(), total, value, color: colorsRef.current[+idx] };
       }));

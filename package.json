@@ -67,7 +67,7 @@
     "html-webpack-plugin": "5.5.0",
     "husky": "9.1.6",
     "mini-css-extract-plugin": "2.6.1",
-    "pa-typings": "https://github.com/megaputer/pa-typings.git#commit=4fee2a541dfb8142424bdbfc822b2f5ad28ceca7",
+    "pa-typings": "https://github.com/megaputer/pa-typings.git#commit=dde92cc0902fc6e1ce1c41f2dce793de74a2df76",
     "postcss-loader": "7.0.1",
     "sass": "1.54.4",
     "sass-loader": "13.0.2",

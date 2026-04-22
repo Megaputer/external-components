@@ -4317,7 +4317,7 @@ __metadata:
     mini-css-extract-plugin: "npm:2.6.1"
     moment: "npm:2.29.4"
     opencage-api-client: "npm:1.0.4"
-    pa-typings: "https://github.com/megaputer/pa-typings.git#commit=4fee2a541dfb8142424bdbfc822b2f5ad28ceca7"
+    pa-typings: "https://github.com/megaputer/pa-typings.git#commit=dde92cc0902fc6e1ce1c41f2dce793de74a2df76"
     postcss-loader: "npm:7.0.1"
     react: "npm:18.2.0"
     react-dom: "npm:18.2.0"
@@ -6722,10 +6722,10 @@ external-widget-cli@megaputer/external-widget-cli:
   languageName: node
   linkType: hard
 
-"pa-typings@https://github.com/megaputer/pa-typings.git#commit=4fee2a541dfb8142424bdbfc822b2f5ad28ceca7":
-  version: 1.1.2
-  resolution: "pa-typings@https://github.com/megaputer/pa-typings.git#commit=4fee2a541dfb8142424bdbfc822b2f5ad28ceca7"
-  checksum: 10c0/c2ec125bb475b44df1f2a46de1e7b473b3f8335d49066ba79ec2b7b2bb3cdbeb06e3753a5be0e331095294d95b9068b23ec74c102f10c28fa61d6857aa2fa3e2
+"pa-typings@https://github.com/megaputer/pa-typings.git#commit=dde92cc0902fc6e1ce1c41f2dce793de74a2df76":
+  version: 1.2.0
+  resolution: "pa-typings@https://github.com/megaputer/pa-typings.git#commit=dde92cc0902fc6e1ce1c41f2dce793de74a2df76"
+  checksum: 10c0/95fdec66185e00582e5fa63fd5fd53dd37ea3d1423fe0bed6cda1942f9f3b59547fbe64e9afe306e2cf4097aefa1fc850d6a864725dabbba6768f11609fd3807
   languageName: node
   linkType: hard
 

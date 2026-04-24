@@ -54,10 +54,17 @@ export const Calendar: React.FC<Props> = ({ requestor, args, setCondition, condi
     fetchData();
   }, [requestor]);
 
-  const filter = (action: number, columnId: number, day: number, month: number, year: number, wrapperGuid: string) => {
+  const filter = (
+    action: number,
+    column: ColumnInfo,
+    day: number,
+    month: number,
+    year: number,
+    wrapperGuid: string
+  ) => {
     return requestor.filter({
       action,
-      columnId,
+      columnId: column.id,
       day,
       delta: 0,
       howsearch: 0,
@@ -69,8 +76,8 @@ export const Calendar: React.FC<Props> = ({ requestor, args, setCondition, condi
       value: 0,
       wrapperGuid,
       year,
-      columnName: '',
-      columnType: ''
+      columnName: column.title,
+      columnType: column.type
     });
   };
 
@@ -85,14 +92,14 @@ export const Calendar: React.FC<Props> = ({ requestor, args, setCondition, condi
       if (column == undefined)
         return;
 
-      const filterOnFirstToInf = await filter(5, column.id, 1, date.getMonth() + 1, date.getFullYear(), wrapperGuid);
+      const filterOnFirstToInf = await filter(5, column, 1, date.getMonth() + 1, date.getFullYear(), wrapperGuid);
 
       const day = new Date(date.getFullYear(), date.getMonth(), 0).getDate();
       const year = date.getMonth() >= 11 ? date.getFullYear() + 1 : date.getFullYear();
       const month = date.getMonth() >= 11 ? 1 : date.getMonth() + 2;
       const filterOnLastToFirst = await filter(
         3,
-        column.id,
+        column,
         day,
         month,
         year,

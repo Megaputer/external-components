@@ -1,5 +1,5 @@
 import { createRoot, Root } from 'react-dom/client';
-import type { TConditionNode, ApiRequestor, IWidget, WidgetArgs, ApprTab } from 'pa-typings';
+import type { TConditionNode, ApiRequestor, IWidget, WidgetArgs, ApprTab, ExternalWidgetFormatter } from 'pa-typings';
 
 import { SimpleTable } from './view';
 import * as styles from './styles.scss';
@@ -7,11 +7,13 @@ import * as styles from './styles.scss';
 class TableWidget implements IWidget {
   private requestor: ApiRequestor | null = null;
   private root: Root | null = null;
-  private condition: TConditionNode | undefined = undefined;
+  private condition?: TConditionNode;
+  private formatter?: ExternalWidgetFormatter;
 
   constructor(private args: WidgetArgs) {}
 
-  updateData(requestor: ApiRequestor): void {
+  async updateData(requestor: ApiRequestor) {
+    this.formatter = await this.args.getFormatter();
     this.requestor = requestor;
     this.updateContainer();
   }
@@ -40,8 +42,15 @@ class TableWidget implements IWidget {
   }
 
   private updateContainer() {
-    if (this.root)
-      this.root.render(<SimpleTable setCondition={this.setCondition} requestor={this.requestor!} args={this.args} />);
+    if (this.root && this.formatter && this.requestor)
+      this.root.render((
+        <SimpleTable
+          formatter={this.formatter}
+          setCondition={this.setCondition}
+          requestor={this.requestor}
+          args={this.args}
+        />
+      ));
   }
 
   getApprSchema(): ApprTab[] | undefined {

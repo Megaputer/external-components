@@ -1,17 +1,22 @@
 import * as React from 'react';
-import type { TConditionNode, ApiRequestor, Table, ColumnInfo, WidgetArgs } from 'pa-typings';
+import type { TConditionNode, ApiRequestor, Table, ColumnInfo, WidgetArgs, ExternalWidgetFormatter } from 'pa-typings';
 import { Group, MantineProvider } from '@mantine/core';
 import { DatePicker, DayProps } from '@mantine/dates';
-import { dateToVariant, variantToDate } from 'helper';
+
+const BASE_DATE: Record<string, number> = {
+  'pa6': 25569.0,
+  'pagrid': 0
+};
 
 interface Props {
   requestor: ApiRequestor;
+  formatter: ExternalWidgetFormatter;
   args?: WidgetArgs;
   condition?: TConditionNode;
   setCondition: (cond: TConditionNode) => void;
 }
 
-export const Calendar: React.FC<Props> = ({ requestor, args, setCondition, condition }) => {
+export const Calendar: React.FC<Props> = ({ requestor, formatter, args, setCondition, condition }) => {
   const wrapperGuidRef = React.useRef<{ wrapperGuid: string }>({ wrapperGuid: '' });
   const [map, setMap] = React.useState<Map<number, number>>(new Map());
   const [date, setDate] = React.useState<Date>(new Date());
@@ -40,7 +45,8 @@ export const Calendar: React.FC<Props> = ({ requestor, args, setCondition, condi
       if (!columns.length)
         return;
 
-      setColumn(columns[0]);
+      const column = columns[0];
+      setColumn(column);
       const values = await requestor.values({
         columnIndexes: columns.map(c => c.id),
         offset: 0,
@@ -48,7 +54,7 @@ export const Calendar: React.FC<Props> = ({ requestor, args, setCondition, condi
         wrapperGuid: guid.wrapperGuid
       });
       const startDate = Array.from(getData(values), ([v, _]) => v)[0];
-      const date = variantToDate(startDate);
+      const date = new Date(formatter.formatValue(column.title, startDate));
       setDate(date);
     };
     fetchData();
@@ -128,12 +134,13 @@ export const Calendar: React.FC<Props> = ({ requestor, args, setCondition, condi
     if (!date || !column)
       return;
 
-    const value = dateToVariant(date);
+    const value = dateToVariant(date, BASE_DATE[args!.serverType]);
     const condition: TConditionNode = {
       borderCond: 1,
       dVal: value,
       dVal2: value + 1,
-      columnName: column.title
+      columnName: column.title,
+      columnFunc: 'dateonly'
     };
 
     setValue(date);
@@ -142,7 +149,7 @@ export const Calendar: React.FC<Props> = ({ requestor, args, setCondition, condi
   };
 
   const getDayProps = (date: Date): Partial<DayProps> => {
-    const data = dateToVariant(date);
+    const data = dateToVariant(date, BASE_DATE[args!.serverType]);
     if (!map.has(data))
       return {};
 
@@ -188,3 +195,7 @@ export const Calendar: React.FC<Props> = ({ requestor, args, setCondition, condi
     </MantineProvider>
   );
 };
+
+export function dateToVariant(date: Date, baseDate: number) {
+  return baseDate + ((date.getTime() - (date.getTimezoneOffset() * 60 * 1000)) / (1000 * 60 * 60 * 24));
+}

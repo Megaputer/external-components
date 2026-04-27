@@ -3,8 +3,6 @@ import type { FormValue, FormValueBasic } from 'pa-typings';
 import { Group, MantineProvider } from '@mantine/core';
 import { DatePicker } from '@mantine/dates';
 
-import { dateToVariant, variantToDate } from 'helper';
-
 interface Props {
   getValue(): FormValue;
   setValue(val: FormValueBasic[]): Promise<void> | void;

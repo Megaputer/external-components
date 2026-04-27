@@ -9,13 +9,12 @@ import {
   ResponsiveContainer,
   Cell
 } from 'recharts';
-import type { TConditionNode, ApiRequestor, WidgetArgs } from 'pa-typings';
+import type { TConditionNode, ApiRequestor, WidgetArgs, ExternalWidgetFormatter } from 'pa-typings';
 import { Select, type Column } from 'Select';
-
-import { variantToDate } from 'helper';
 
 interface Props {
   requestor: ApiRequestor;
+  formatter: ExternalWidgetFormatter;
   args?: WidgetArgs;
   condition?: TConditionNode;
   setCondition: (cond: TConditionNode) => void;
@@ -28,7 +27,7 @@ type DataType = {
   color: string;
 };
 
-export const BarChartView: React.FC<Props> = ({ requestor, args, setCondition }) => {
+export const BarChartView: React.FC<Props> = ({ requestor, args, formatter, setCondition }) => {
   const [data, setData] = React.useState<DataType[]>([]);
   const [columns, setColumns] = React.useState<Column[]>([]);
   const [colId, setColId] = React.useState(-1);
@@ -75,8 +74,9 @@ export const BarChartView: React.FC<Props> = ({ requestor, args, setCondition })
       setData(values.rowIDs.map((idx) => {
         let tableValue = values.table?.[+idx]?.[0] ?? 'missing';
         let value = tableValue;
+        const column = columns[colId];
         if (columns[colId].type == 'DateTime')
-          tableValue = variantToDate(+tableValue).toLocaleDateString('ru-RU');
+          tableValue = formatter.formatValue(column.name, +tableValue);
         if (columns[colId].type == 'String')
           value = values.textIDs?.[0]?.[idx] ?? value;
         const total = Number(values.table?.[+idx][1]);

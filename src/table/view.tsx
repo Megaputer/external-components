@@ -1,5 +1,5 @@
 import * as React from 'react';
-import type { TConditionNode, ApiRequestor, ColumnInfo, WidgetArgs } from 'pa-typings';
+import type { TConditionNode, ApiRequestor, ColumnInfo, WidgetArgs, ExternalWidgetFormatter } from 'pa-typings';
 
 import Table from '@mui/material/Table';
 import TableBody from '@mui/material/TableBody';
@@ -10,15 +10,16 @@ import TableRow from '@mui/material/TableRow';
 import Paper from '@mui/material/Paper';
 import { TablePagination } from '@mui/material';
 
-import { joinAnd, joinOr, variantToDate } from 'helper';
+import { joinAnd, joinOr } from 'helper';
 
 interface Props {
   requestor: ApiRequestor;
+  formatter: ExternalWidgetFormatter;
   args?: WidgetArgs;
   setCondition: (cond: TConditionNode) => void;
 }
 
-export const SimpleTable: React.FC<Props> = ({ requestor, args, setCondition }) => {
+export const SimpleTable: React.FC<Props> = ({ requestor, args, formatter, setCondition }) => {
   const [columns, setColumns] = React.useState<ColumnInfo[]>([]);
   const [rows, setRows] = React.useState<any>([]);
   const [page, setPage] = React.useState(0);
@@ -50,16 +51,16 @@ export const SimpleTable: React.FC<Props> = ({ requestor, args, setCondition }) 
         rowCount
       });
       const rows = values.table;
-      const dateTimeIds = [];
+      const dateTimeColumns = new Map<string, ColumnInfo>();
       for (const col of columns) {
         if (col.type === 'DateTime') {
-          dateTimeIds.push(col.id);
+          dateTimeColumns.set(col.title, col);
         }
       }
 
-      if (dateTimeIds.length && rows?.length) {
+      if (dateTimeColumns.size && rows?.length) {
         for (const r of rows) {
-          dateTimeIds.forEach(id => r[id] = variantToDate(+r[id]).toLocaleDateString());
+          dateTimeColumns.forEach(col => r[col.id] = formatter.formatValue(col.title, r[col.id]));
         }
       }
 

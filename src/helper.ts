@@ -20,3 +20,10 @@ export function joinAnd(conditions: TConditionNode[]): TConditionNode {
 export function joinOr(conditions: TConditionNode[]): TConditionNode {
   return joinConditions(TColumnOperation.co_OR, conditions);
 }
+
+export function isNumeric(type: string): boolean {
+  return (
+    type === 'Integer' ||
+    type === 'Numeric'
+  );
+}

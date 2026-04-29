@@ -10,7 +10,7 @@ import TableRow from '@mui/material/TableRow';
 import Paper from '@mui/material/Paper';
 import { TablePagination } from '@mui/material';
 
-import { joinAnd, joinOr } from 'helper';
+import { isNumeric, joinAnd, joinOr } from 'helper';
 
 interface Props {
   requestor: ApiRequestor;
@@ -44,27 +44,14 @@ export const SimpleTable: React.FC<Props> = ({ requestor, args, formatter, setCo
       const rowCount = rowsCount.current < offset + rowsPerPage
         ? rowsCount.current - offset
         : rowsPerPage;
-      const values = await requestor.values({
+      const { table = [] } = await requestor.values({
         columnIndexes: columns.map((c) => c.id),
         wrapperGuid: wrapperGuid.wrapperGuid,
         offset,
         rowCount
       });
-      const rows = values.table;
-      const dateTimeColumns = new Map<string, ColumnInfo>();
-      for (const col of columns) {
-        if (col.type === 'DateTime') {
-          dateTimeColumns.set(col.title, col);
-        }
-      }
 
-      if (dateTimeColumns.size && rows?.length) {
-        for (const r of rows) {
-          dateTimeColumns.forEach(col => r[col.id] = formatter.formatValue(col.title, r[col.id]));
-        }
-      }
-
-      setRows(values.table);
+      setRows(table);
     };
     if (wrapperGuid.wrapperGuid != '' && rowsCount.current)
       getValues();
@@ -95,6 +82,15 @@ export const SimpleTable: React.FC<Props> = ({ requestor, args, formatter, setCo
     args?.openDrillDown(condition, { navigate });
   };
 
+  const formatValue = (value: string, columnIdx: number) => {
+    const column = columns[columnIdx];
+    if (isNumeric(column.type) || column.type === 'DateTime') {
+      return formatter.formatValue(column.title, +value);
+    } else {
+      return value;
+    }
+  };
+
   return (
     <Paper square>
       <TableContainer>
@@ -115,7 +111,7 @@ export const SimpleTable: React.FC<Props> = ({ requestor, args, formatter, setCo
                   onClick={() => onDrillDown(i)}
                   onDoubleClick={() => onDrillDown(i, true)}
                 >
-                  {row.map((r: string, i: number) => <TableCell key={i} align='right'>{r}</TableCell>)}
+                  {row.map((r: string, j: number) => <TableCell key={j} align='right'>{formatValue(r, j)}</TableCell>)}
                 </TableRow>
               ))}
           </TableBody>

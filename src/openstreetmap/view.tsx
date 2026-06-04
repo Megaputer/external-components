@@ -1,5 +1,5 @@
 import * as React from 'react';
-import type { ApiRequestor, ApprValue } from 'pa-typings';
+import type { ApiRequestor, ApprValue, Value } from 'pa-typings';
 import * as opencage from 'opencage-api-client';
 import { MapContainer, TileLayer, Marker, AttributionControl, useMapEvents } from 'react-leaflet';
 import { Icon } from 'leaflet';
@@ -47,7 +47,7 @@ export const OpenStreetMap: React.FC<Props> = (props) => {
       .catch(console.log);
   };
 
-  const showMarkerByAddress = (data: (number | string)[]) => {
+  const showMarkerByAddress = (data: Value[]) => {
     const id = getApprValue('address')!;
     if (id === '')
       return;
@@ -55,7 +55,7 @@ export const OpenStreetMap: React.FC<Props> = (props) => {
     getGeocode(city);
   };
 
-  const showMarkerByCoordinate = (data: (number | string)[]) => {
+  const showMarkerByCoordinate = (data: Value[]) => {
     const latColId = getApprValue('latitude')!;
     const lngColId = getApprValue('longitude')!;
     if (latColId === '' || lngColId === '')
@@ -111,7 +111,7 @@ export const OpenStreetMap: React.FC<Props> = (props) => {
       <MapContainer
         ref={mapRef}
         center={position}
-        zoom={zoom.current}
+        zoom={+zoom.current}
         style={{ width: '100%', height: '100%' }}
         attributionControl={false}
       >

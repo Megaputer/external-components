@@ -9,8 +9,9 @@ import {
   ResponsiveContainer,
   Cell
 } from 'recharts';
-import type { TConditionNode, ApiRequestor, WidgetArgs, ExternalWidgetFormatter } from 'pa-typings';
+import type { TConditionNode, ApiRequestor, WidgetArgs, ExternalWidgetFormatter, GeoPoint } from 'pa-typings';
 import { Select, type Column } from 'Select';
+import { geoToString, isGeoPoint } from 'helper';
 
 interface Props {
   requestor: ApiRequestor;
@@ -72,15 +73,27 @@ export const BarChartView: React.FC<Props> = ({ requestor, args, formatter, setC
       }
 
       setData(values.rowIDs.map((idx) => {
-        let tableValue = values.table?.[+idx]?.[0] ?? 'missing';
-        let value = tableValue;
-        const column = columns[colId];
-        if (columns[colId].type == 'DateTime')
-          tableValue = formatter.formatValue(column.name, +tableValue);
-        if (columns[colId].type == 'String')
-          value = values.textIDs?.[0]?.[idx] ?? value;
-        const total = Number(values.table?.[+idx][1]);
-        return { name: tableValue.toString(), total, value, color: colorsRef.current[+idx] };
+        const i = +idx;
+        const raw = values.table?.[i]?.[0] ?? 'missing';
+        const col = columns.find(c => c.id === colId)!;
+        let name = raw;
+        let value: string | number | GeoPoint = raw;
+
+        if (isGeoPoint(value))
+          name = geoToString(value);
+        if (col.type === 'DateTime')
+          name = formatter.formatValue(col.name, raw);
+        if (col.type === 'String')
+          value = values.textIDs?.[0]?.[i] ?? raw;
+        if (typeof value === 'object')
+          value = String(value);
+
+        return {
+          name: name.toString(),
+          total: Number(values.table?.[i]?.[1]),
+          value,
+          color: colorsRef.current[i],
+        };
       }));
     };
     if (wrapperGuid.current && colId != -1)

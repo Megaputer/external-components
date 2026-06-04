@@ -1,5 +1,5 @@
 import * as React from 'react';
-import type { TConditionNode, ApiRequestor, ColumnInfo, WidgetArgs, ExternalWidgetFormatter } from 'pa-typings';
+import type { TConditionNode, ApiRequestor, ColumnInfo, WidgetArgs, ExternalWidgetFormatter, Value } from 'pa-typings';
 
 import Table from '@mui/material/Table';
 import TableBody from '@mui/material/TableBody';
@@ -10,7 +10,7 @@ import TableRow from '@mui/material/TableRow';
 import Paper from '@mui/material/Paper';
 import { TablePagination } from '@mui/material';
 
-import { isNumeric, joinAnd, joinOr } from 'helper';
+import { geoToString, getTConditionValue, isContinuous, joinAnd, joinOr } from 'helper';
 
 interface Props {
   requestor: ApiRequestor;
@@ -21,7 +21,7 @@ interface Props {
 
 export const SimpleTable: React.FC<Props> = ({ requestor, args, formatter, setCondition }) => {
   const [columns, setColumns] = React.useState<ColumnInfo[]>([]);
-  const [rows, setRows] = React.useState<any>([]);
+  const [rows, setRows] = React.useState<Value[][]>([]);
   const [page, setPage] = React.useState(0);
   const [rowsPerPage, setRowsPerPage] = React.useState(10);
   const [wrapperGuid, setWrapperGuid] = React.useState<{ wrapperGuid: string }>({ wrapperGuid: '' });
@@ -74,20 +74,24 @@ export const SimpleTable: React.FC<Props> = ({ requestor, args, formatter, setCo
 
     const condition = joinOr(data.rowIDs.map((rowID: string, i: number) => {
       return joinAnd(columns.filter(c => c.type !== 'Text').map((col, idx) => {
-        const dVal = data.textIDs?.[idx]?.[rowID] || data.table?.[i]?.[idx];
-        return { columnName: col.title, dVal };
+        const rawValue = args?.serverType === 'pa6'
+          ? (data.textIDs?.[idx]?.[rowID] || data.table?.[i]?.[col.id])
+          : data.table?.[i]?.[col.id];
+        return { columnName: col.title, ...getTConditionValue(rawValue, col.type) };
       }));
     }));
     setCondition(condition);
     args?.openDrillDown(condition, { navigate });
   };
 
-  const formatValue = (value: string, columnIdx: number) => {
+  const formatValue = (value: Value, columnIdx: number) => {
     const column = columns[columnIdx];
-    if (isNumeric(column.type) || column.type === 'DateTime') {
+    if (isContinuous(column.type)) {
       return formatter.formatValue(column.title, +value);
+    } else if (column.type === 'Geo' && typeof value === 'object') {
+      return geoToString(value);
     } else {
-      return value;
+      return value.toString();
     }
   };
 
@@ -102,7 +106,7 @@ export const SimpleTable: React.FC<Props> = ({ requestor, args, formatter, setCo
           </TableHead>
           <TableBody>
             {rows
-              .map((row: string[], i: number) => (
+              .map((row: Value[], i: number) => (
                 <TableRow
                   key={i}
                   hover
@@ -111,7 +115,7 @@ export const SimpleTable: React.FC<Props> = ({ requestor, args, formatter, setCo
                   onClick={() => onDrillDown(i)}
                   onDoubleClick={() => onDrillDown(i, true)}
                 >
-                  {row.map((r: string, j: number) => <TableCell key={j} align='right'>{formatValue(r, j)}</TableCell>)}
+                  {row.map((r: Value, j: number) => <TableCell key={j} align='right'>{formatValue(r, j)}</TableCell>)}
                 </TableRow>
               ))}
           </TableBody>

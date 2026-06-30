@@ -88,10 +88,10 @@ export const SimpleTable: React.FC<Props> = ({ requestor, args, formatter, setCo
     const column = columns[columnIdx];
     if (isContinuous(column.type)) {
       return formatter.formatValue(column.title, +value);
-    } else if (column.type === 'Geo' && typeof value === 'object') {
+    } else if (column.type === 'Geo' && typeof value === 'object' && value != null) {
       return geoToString(value);
     } else {
-      return value.toString();
+      return value?.toString() ?? '';
     }
   };
 
